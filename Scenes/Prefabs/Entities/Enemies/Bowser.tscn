@@ -5,13 +5,11 @@
 [ext_resource type="Script" uid="uid://caq1qiwmy0mox" path="res://Scripts/Parts/BetterAnimatedSprite.gd" id="4_2qn7a"]
 [ext_resource type="Script" uid="uid://dri2d5jtu0fbq" path="res://Scripts/Classes/Components/FireballDetection.gd" id="4_kfwlq"]
 [ext_resource type="Script" uid="uid://cbal8ms2oe1ik" path="res://Scripts/Classes/Components/ResourceSetterNew.gd" id="5_17x2r"]
-[ext_resource type="JSON" path="res://Assets/Sprites/Enemies/Bowser.json" id="6_nf6hu"]
 [ext_resource type="Script" uid="uid://cmvlgsjmsk0v5" path="res://Scripts/Classes/Resources/ThemedResource.gd" id="6_pvhfi"]
 [ext_resource type="Script" uid="uid://c3gg32ivrlq8n" path="res://Scripts/Classes/Components/GibSpawner.gd" id="6_va0n6"]
 [ext_resource type="Script" uid="uid://5octqlf4ohel" path="res://Scripts/Classes/Components/ScoreNoteSpawner.gd" id="11_pvhfi"]
 [ext_resource type="Script" uid="uid://cqif1li7otvpl" path="res://Scripts/Parts/SpriteFramesToJsonConverter.gd" id="14_nf6hu"]
 [ext_resource type="Script" uid="uid://ctfbuoxtnnl0q" path="res://Scripts/Classes/Components/EditorPropertyExposer.gd" id="15_nf6hu"]
-[ext_resource type="JSON" path="res://Assets/Sprites/Items/Hammer.json" id="15_yggkc"]
 [ext_resource type="Script" uid="uid://d4a7yp6e55u8t" path="res://Scripts/Classes/Components/TrackJoint.gd" id="17_5b235"]
 [ext_resource type="Script" uid="uid://bbww34oiexbx2" path="res://Scripts/Classes/Components/ShellDetection.gd" id="19_ymlbw"]
 [ext_resource type="Script" uid="uid://chj8hu207lrh" path="res://Scripts/Classes/Components/EnemyPlayerDetection.gd" id="20_ckuah"]
@@ -177,6 +175,14 @@ size = Vector2(16, 18)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yggkc"]
 size = Vector2(6, 6)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_exf4b"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Hold",
+"speed": 5.0
+}]
+
 [sub_resource type="Resource" id="Resource_exf4b"]
 script = ExtResource("6_pvhfi")
 Overworld = SubResource("SpriteFrames_mcog5")
@@ -227,10 +233,11 @@ scale = Vector2(1, -1)
 remote_path = NodePath("../../../Hammer")
 
 [node name="ResourceSetterNew" type="Node" parent="SpriteScaleJoint/Sprite" unique_id=555266942 node_paths=PackedStringArray("node_to_affect")]
+process_mode = 3
 script = ExtResource("5_17x2r")
 node_to_affect = NodePath("..")
 property_name = "sprite_frames"
-resource_json = ExtResource("6_nf6hu")
+json_path = "res://Assets/Sprites/Enemies/Bowser.json"
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"
 
 [node name="ColorRect" type="ColorRect" parent="SpriteScaleJoint/Sprite" unique_id=1674277261]
@@ -256,10 +263,11 @@ do_offset = false
 metadata/_custom_type_script = "uid://caq1qiwmy0mox"
 
 [node name="ResourceSetterNew" type="Node" parent="SpriteScaleJoint/DeathSprite" unique_id=381174695 node_paths=PackedStringArray("node_to_affect")]
+process_mode = 3
 script = ExtResource("5_17x2r")
 node_to_affect = NodePath("..")
 property_name = "sprite_frames"
-resource_json = ExtResource("6_nf6hu")
+json_path = "res://Assets/Sprites/Enemies/Bowser.json"
 use_cache = false
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"
 
@@ -310,17 +318,23 @@ disabled = true
 [node name="Hammer" type="AnimatedSprite2D" parent="." unique_id=1437707171]
 visible = false
 show_behind_parent = true
-position = Vector2(-16, -32)
+position = Vector2(-17.6, -35.800003)
+scale = Vector2(1.2, 1.2)
+sprite_frames = SubResource("SpriteFrames_exf4b")
+animation = &"Hold"
 script = ExtResource("4_2qn7a")
 do_offset = false
 metadata/_custom_type_script = "uid://caq1qiwmy0mox"
+metadata/HammerType = "Bowser"
+metadata/IsBowserBro = "false"
 
-[node name="ResourceSetter" type="Node" parent="Hammer" unique_id=650587338 node_paths=PackedStringArray("node_to_affect", "property_node")]
+[node name="ResourceSetter" type="Node" parent="Hammer" unique_id=650587338 node_paths=PackedStringArray("node_to_affect", "metadata_node")]
+process_mode = 3
 script = ExtResource("5_17x2r")
 node_to_affect = NodePath("..")
-property_node = NodePath("")
 property_name = "sprite_frames"
-resource_json = ExtResource("15_yggkc")
+json_path = "res://Assets/Sprites/Items/Hammer.json"
+metadata_node = NodePath("..")
 use_cache = false
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"
 
@@ -372,6 +386,7 @@ metadata/_custom_type_script = "uid://ba18grqjixded"
 [connection signal="player_stomped_below" from="HammerPlayerDetection" to="." method="damage_player"]
 [connection signal="player_stomped_on" from="HammerPlayerDetection" to="." method="damage_player"]
 [connection signal="screen_entered" from="VisibleOnScreenEnabler2D" to="." method="play_music" flags=6]
+[connection signal="modifier_applied" from="EditorPropertyExposer" to="." method="on_modifiers_changed"]
 [connection signal="moving_shell_entered" from="ShellDetection" to="ShellDetection" method="destroy_shell"]
 [connection signal="moving_shell_entered" from="ShellDetection" to="." method="fireball_hit" unbinds=1]
 [connection signal="hammer_player_hit" from="EnemyPlayerDetection" to="." method="die_from_hammer"]

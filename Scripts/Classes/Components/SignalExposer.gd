@@ -61,21 +61,21 @@ func _enter_tree() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	z_index = 10
 	global_position = owner.global_position + position_offset
-	call_deferred("connect_pre_existing_signals")
 	if Global.level_editor != null:
 		if Global.level_editor_is_editing() == false:
 			get_tree().call_group("Gizmos", "set_visible", Global.level_editor.gizmos_visible)
 	else:
-		get_tree().call_group("Gizmos", "hide")
+		get_tree().call_group("Gizmos", "hide" if Global.debug_mode == false else "show")
 
 func _ready() -> void:
+	connect_pre_existing_signals()
 	if line_drawer_added == false:
 		add_child(line_drawer)
 		line_drawer.top_level = true
-		line_drawer.global_position = global_position
 		line_drawer.queue_redraw()
 		line_drawer_added = true
 	line_drawer = get_child(0)
+	line_drawer.global_position = global_position
 	if Global.level_editor != null:
 		Global.level_editor.level_start.connect(line_drawer.queue_redraw)
 
@@ -127,7 +127,6 @@ func _exit_tree() -> void:
 func emit_pulse() -> void:
 	if get_tree() == null: return
 	if accepting_inputs == false: return
-	print(signals_recieved)
 	update_animation(1.2, 1.0)
 	if check_recursive() == false:
 		return
@@ -135,6 +134,9 @@ func emit_pulse() -> void:
 	pulse_emitted.emit()
 	signals_recieved = 0
 	turned_on = true
+	if (line_drawer == null):
+		line_drawer = LineDrawer.new()
+		add_child(line_drawer)
 	line_drawer.queue_redraw()
 	await get_tree().create_timer(0.1, false).timeout
 	turned_on = false
@@ -150,9 +152,17 @@ func connect_pre_existing_signals() -> void:
 		connect_to_node(i, false)
 	all_connected = true
 
-func connect_to_node(node_to_recieve := [], animate := true) -> void:
+func connect_to_node(node_to_recieve := [], animate := true, can_disconnect := false) -> void:
 	has_output = true
 	var node: Node = get_node_from_tile(node_to_recieve[0], node_to_recieve[1])
+	if node == null:
+		Global.log_error("Bad signal connection! Broken Gizmos got disconnected!")
+		queue_free()
+		return
+	if (can_disconnect && connections.has(node_to_recieve)):
+		disconnect_node(node_to_recieve)
+		signal_connected.emit()
+		return
 	node.tree_exiting.connect(remove_node_connection.bind(node_to_recieve))
 	if connections.has(node_to_recieve) == false:
 		connections.append(node_to_recieve.duplicate())
@@ -173,6 +183,17 @@ func remove_node_connection(node := []) -> void:
 		line_drawer.queue_redraw()
 	if connections.is_empty():
 		has_output = false
+
+func disconnect_node(node_to_recieve := []) -> void:
+	remove_node_connection(node_to_recieve)
+	
+	var node_signal: Node = get_node_from_tile(node_to_recieve[0], node_to_recieve[1]).get_node("SignalExposer")
+	pulse_emitted.disconnect(node_signal.on_recieve_pulse)
+	powered_on.disconnect(node_signal.on_recieve_power)
+	powered_off.disconnect(node_signal.on_lost_power)
+	node_signal.total_inputs -= 1
+	node_signal.has_input = node_signal.total_inputs != 0
+	node_signal.update_animation(0.8, 1.0, true)
 
 func on_recieve_pulse() -> void:
 	if accepting_inputs == false: return
@@ -202,7 +223,6 @@ func get_string() -> String:
 	if owner.get_meta("save_string", "") != "":
 		var string = owner.get_meta("save_string")
 		string = string.substr(string.find(",$"))
-		print([string, string.substr(string.find(",$"))])
 		return string
 	for i in connections:
 		entity_string += ",$"
@@ -246,7 +266,6 @@ func check_recursive() -> bool:
 const EXPLOSION = preload("uid://clbvyne1cr8gp")
 
 func explode() -> void:
-	print(signals_recieved)
 	await get_tree().process_frame
 	var node = EXPLOSION.instantiate()
 	node.global_position = owner.global_position

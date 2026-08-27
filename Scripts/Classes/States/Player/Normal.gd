@@ -33,7 +33,7 @@ func physics_update(delta: float) -> void:
 func handle_death_pits() -> void:
 	if Warper.warping:
 		return
-	if player.global_position.y > 64 and not Level.in_vine_level and player.auto_death_pit and player.gravity_vector == Vector2.DOWN:
+	if player.global_position.y > 64 and Global.current_level.room_type != Level.RoomType.COIN_HEAVEN and player.gravity_vector == Vector2.DOWN:
 		player.die(true)
 	elif player.global_position.y < Global.current_level.vertical_height - 32 and player.gravity_vector == Vector2.UP:
 		player.die(true)
@@ -57,7 +57,7 @@ func handle_movement(delta: float) -> void:
 		handle_swimming(delta)
 	else:
 		handle_air_movement(delta)
-	player.move_and_slide()
+	player.move()
 	player.moved.emit()
 
 func grounded(delta: float) -> void:
@@ -129,6 +129,8 @@ func ground_acceleration(delta: float) -> void:
 	if ((Global.player_action_pressed("run", player.player_id) or run_buffer > 0) and walk_speed_requirement) and (not player.in_water and player.flight_meter <= 0) and player.can_run:
 		target_move_speed = player.physics_params("RUN_SPEED")
 		target_accel = player.physics_params("GROUND_RUN_ACCEL")
+	if Player.pipe_cutscene:
+		target_move_speed = player.physics_params("PIPE_CUTSCENE_MOVE_SPEED", player.COSMETIC_PARAMETERS)
 	if player.input_direction != player.velocity_direction:
 		if (Global.player_action_pressed("run", player.player_id) or run_buffer > 0) and player.can_run:
 			target_accel = player.physics_params("RUN_SKID")
@@ -250,6 +252,9 @@ func swim_acceleration(delta: float) -> void:
 func swim_up() -> void:
 	player.velocity.y = -player.physics_params("SWIM_HEIGHT") * player.gravity_vector.y
 	AudioManager.play_sfx("swim", player.global_position)
+	swim_up_meter = 0
+	if player.swim_stroke:
+		handle_animations()
 	swim_up_meter = 0.5
 	player.crouching = false
 
@@ -301,7 +306,7 @@ func get_animation_name() -> String:
 	if player.has_star: jump_context = "Star" + jump_context
 	
 	var jump = func(anim_name: String) -> String:
-		if player.sprite.sprite_frames.has_animation(state_context + anim_name):
+		if player.sprite.sprite_frames.has_animation(jump_context + anim_name):
 			return jump_context + anim_name
 		return anim_name
 
