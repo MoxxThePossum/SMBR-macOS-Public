@@ -129,9 +129,9 @@ script = ExtResource("8_gkyfa")
 metadata/_custom_type_script = "uid://blfnd65xcx78c"
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=2048366223]
-self_modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -11)
 scale = Vector2(1, 1.3)
+rect = Rect2(-16, -16, 32, 32)
 
 [node name="EnemyPlayerDetection" type="Node" parent="." unique_id=1251780888 node_paths=PackedStringArray("hitbox")]
 script = ExtResource("4_1sj6f")
