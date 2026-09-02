@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://canoj6slqk5ee"]
-
-[ext_resource type="PackedScene" uid="uid://58uk17ixtt4r" path="res://Scenes/Prefabs/Blocks/InvisibleBlocks/InvisibleQuestionBlock.tscn" id="1_etg4d"]
-[ext_resource type="PackedScene" uid="uid://cpk6idjoxjotv" path="res://Scenes/Prefabs/Entities/Items/OneUp.tscn" id="2_7o788"]
-
-[node name="InvisibleQuestionBlock" unique_id=574723668 instance=ExtResource("1_etg4d")]
-item = ExtResource("2_7o788")
-
-[editable path="BlockAnimations"]

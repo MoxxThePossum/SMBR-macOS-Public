@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://cih0lt6mbg3g8"]
-
-[ext_resource type="PackedScene" uid="uid://dsa8lpl7n8ge0" path="res://Scenes/Prefabs/Blocks/BrickBlocks/BrickBlock.tscn" id="1_i2ug8"]
-[ext_resource type="PackedScene" uid="uid://n7nskl10ouem" path="res://Scenes/Prefabs/Entities/Items/PoisonMushroom.tscn" id="2_xmj55"]
-
-[node name="BrickBlock" unique_id=1279144856 instance=ExtResource("1_i2ug8")]
-item = ExtResource("2_xmj55")
