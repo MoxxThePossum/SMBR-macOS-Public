@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bao37nqa7h7cm"]
+
+[ext_resource type="PackedScene" uid="uid://urrtgm0h110y" path="res://Scenes/Prefabs/Blocks/QuestionBlocks/StarQuestionBlock.tscn" id="1_ub15u"]
+[ext_resource type="PackedScene" uid="uid://cpk6idjoxjotv" path="res://Scenes/Prefabs/Entities/Items/OneUp.tscn" id="2_ub15u"]
+
+[node name="QuestionBlock" unique_id=769866425 instance=ExtResource("1_ub15u")]
+item = ExtResource("2_ub15u")
+
+[editable path="BlockAnimations"]

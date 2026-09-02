@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dn1btottv42sd"]
+
+[ext_resource type="PackedScene" uid="uid://dsa8lpl7n8ge0" path="res://Scenes/Prefabs/Blocks/BrickBlocks/BrickBlock.tscn" id="1_37s05"]
+[ext_resource type="PackedScene" uid="uid://cpk6idjoxjotv" path="res://Scenes/Prefabs/Entities/Items/OneUp.tscn" id="2_etd30"]
+
+[node name="BrickBlock" unique_id=1542994487 instance=ExtResource("1_37s05")]
+item = ExtResource("2_etd30")

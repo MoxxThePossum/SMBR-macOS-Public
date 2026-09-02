@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cor5javglnirw"]
+
+[ext_resource type="PackedScene" uid="uid://dsa8lpl7n8ge0" path="res://Scenes/Prefabs/Blocks/BrickBlocks/BrickBlock.tscn" id="1_esw26"]
+[ext_resource type="PackedScene" uid="uid://dbjqtjhb2t4cn" path="res://Scenes/Prefabs/Entities/Items/FireFlower.tscn" id="2_2eoa6"]
+
+[node name="BrickBlock" unique_id=57027260 instance=ExtResource("1_esw26")]
+item = ExtResource("2_2eoa6")
+mushroom_if_small = true

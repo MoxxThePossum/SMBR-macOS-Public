@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://4gxhnql5bjk6"]
+
+[ext_resource type="Script" uid="uid://chhr6kgvstkod" path="res://Scripts/Classes/Entities/Objects/TrackPiece.gd" id="1_t2c2l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4k6gi"]
+size = Vector2(12, 12)
+
+[node name="TrackPiece" type="Node2D" unique_id=270754925]
+physics_interpolation_mode = 2
+script = ExtResource("1_t2c2l")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=21468083]
+
+[node name="Shape" type="CollisionShape2D" parent="Hitbox" unique_id=975817223]
+shape = SubResource("RectangleShape2D_4k6gi")

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://n1xyk5g5r4h6"]
+
+[ext_resource type="PackedScene" uid="uid://58uk17ixtt4r" path="res://Scenes/Prefabs/Blocks/InvisibleBlocks/InvisibleQuestionBlock.tscn" id="1_okju0"]
+[ext_resource type="PackedScene" uid="uid://dbjqtjhb2t4cn" path="res://Scenes/Prefabs/Entities/Items/FireFlower.tscn" id="2_ibxq6"]
+
+[node name="InvisibleQuestionBlock" unique_id=1655993878 instance=ExtResource("1_okju0")]
+item = ExtResource("2_ibxq6")
+mushroom_if_small = true
+
+[editable path="BlockAnimations"]

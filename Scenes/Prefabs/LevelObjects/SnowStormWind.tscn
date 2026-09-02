@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://biq8pga47n6wj"]
+
+[ext_resource type="PackedScene" uid="uid://ccxhom4wrgfv4" path="res://Scenes/Prefabs/LevelObjects/WindArea.tscn" id="1_trgsh"]
+
+[node name="WindArea" unique_id=1054138550 instance=ExtResource("1_trgsh")]

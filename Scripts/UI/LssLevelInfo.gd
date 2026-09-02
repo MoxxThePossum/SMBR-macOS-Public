@@ -1,0 +1,116 @@
+extends VBoxContainer
+
+signal closed
+
+const LEVEL_INFO_URL := "https://levelsharesquare.com/api/levels/"
+
+static var level_id := ""
+
+var has_downloaded := false
+
+signal level_play
+
+var level_thumbnail = null
+
+var container_to_play: OnlineLevelContainer = null
+
+static var saved_stuff := {}
+
+func _ready() -> void:
+	set_process(false)
+
+func open(container: OnlineLevelContainer) -> void:
+	container_to_play = container.duplicate()
+	has_downloaded = FileAccess.file_exists(Global.config_path.path_join("custom_levels/downloaded/" + container.level_id + ".lvl")) or saved_stuff.is_empty() == false
+	show()
+	level_thumbnail = container.level_thumbnail
+	%Download.text = "DOWNLOAD"
+	if has_downloaded:
+		%OnlinePlay.grab_focus()
+	else:
+		%Download.grab_focus()
+	setup_visuals(container)
+	reset_process()
+
+func reset_process() -> void:
+	await get_tree().physics_frame
+	set_process(true)
+
+func setup_visuals(container: OnlineLevelContainer) -> void:
+	$Panel/AutoScrollContainer.scroll_pos = 0
+	$Panel/AutoScrollContainer.move_direction = -1
+	%LSSDescription.text = "Fetching Description..."
+	print(saved_stuff)
+	if saved_stuff.is_empty():
+		$Description.request(LEVEL_INFO_URL + container.level_id)
+	elif saved_stuff.has("description"):
+		%LSSDescription.text = saved_stuff.description
+	for i in ["level_name", "level_author", "level_id", "thumbnail_url", "level_thumbnail", "difficulty"]:
+		var value = null
+		if saved_stuff.has(i):
+			value = saved_stuff[i]
+		else: value = container.get(i)
+		%SelectedOnlineLevel.set(i, value)
+		saved_stuff[i] = value
+	level_id = saved_stuff.level_id
+	%SelectedOnlineLevel.setup_visuals()
+	%Download.visible = not has_downloaded
+	%OnlinePlay.visible = has_downloaded
+
+func _process(_delta: float) -> void:
+	if Global.multibind_action_just_pressed("ui_back") || Input.is_action_just_pressed("mb_right"):
+		close()
+
+func close() -> void:
+	hide()
+	closed.emit()
+	set_process(false)
+
+func download_level() -> void:
+	DirAccess.make_dir_recursive_absolute(Global.config_path.path_join("custom_levels/downloaded"))
+	var url = "https://levelsharesquare.com/api/levels/" + level_id + "/code"
+	$DownloadLevel.request(url, [], HTTPClient.METHOD_GET)
+	%Download.text = "DOWNLOADING..."
+
+func open_lss() -> void:
+	OS.shell_open("https://levelsharesquare.com/levels/" + str(level_id))
+
+func on_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	var string = body.get_string_from_utf8()
+	var json = JSON.parse_string(string)
+	%LSSDescription.text = Global.sanitize_string(json["level"]["description"])
+	saved_stuff.description = %LSSDescription.text
+
+func level_downloaded(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	var string = body.get_string_from_utf8()
+	var json = JSON.parse_string(string)
+	var file = FileAccess.open(Global.config_path.path_join("custom_levels/downloaded/" + level_id + ".lvl"), FileAccess.WRITE)
+	var data = null
+	if json.levelData.data is Array:
+		data = get_json_from_bytes(json.levelData.data)
+	else:
+		data = json.levelData
+	file.store_string(JSON.stringify(str_to_var(data)))
+	file.close()
+	save_thumbnail()
+	%Download.hide()
+	%OnlinePlay.show()
+	%OnlinePlay.grab_focus()
+
+func save_thumbnail() -> void:
+	if OnlineLevelContainer.cached_thumbnails.has(level_id):
+		var thumbnail = OnlineLevelContainer.cached_thumbnails.get(level_id)
+		DirAccess.make_dir_recursive_absolute(Global.config_path.path_join("custom_levels/downloaded/thumbnails"))
+		thumbnail.get_image().save_png(Global.config_path.path_join("custom_levels/downloaded/thumbnails/" + level_id + ".png"))
+
+func play_level() -> void:
+	var file_path = Global.config_path.path_join("custom_levels/downloaded/" + level_id + ".lvl")
+	LevelEditor.level_file = JSONParser.parse_to_dict(file_path)
+	set_process(false)
+	var info = LevelEditor.level_file["Info"]
+	LevelEditor.level_author = info["Author"]
+	LevelEditor.level_name = info["Name"]
+	level_play.emit()
+
+func get_json_from_bytes(json := []) -> String:
+	return PackedByteArray(json).get_string_from_ascii()

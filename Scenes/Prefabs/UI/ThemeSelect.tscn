@@ -1,0 +1,658 @@
+[gd_scene format=3 uid="uid://bdctqn5p6wxna"]
+
+[ext_resource type="Script" uid="uid://bnuobku66xd0n" path="res://Scripts/UI/ThemeSelect.gd" id="1_iabcx"]
+[ext_resource type="StyleBox" uid="uid://comkghpj0djcl" path="res://Resources/UI/Panel.tres" id="1_x58ld"]
+[ext_resource type="Texture2D" uid="uid://cw5c58yiaeh4j" path="res://Assets/Sprites/UI/ThemeIconsDay.png" id="2_1u8id"]
+[ext_resource type="Texture2D" uid="uid://ddkw5v7l2n4s5" path="res://Assets/Sprites/UI/CheckboxbutSmall.png" id="3_1u8id"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_iabcx"]
+color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iabcx"]
+
+[node name="ThemeSelect" type="Control" unique_id=1938462731]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iabcx")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=515268427]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1425252933]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -86.0
+offset_right = 97.0
+offset_bottom = 86.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_x58ld")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1821163154]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer" unique_id=665564364]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "SELECT THEME"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/Label" unique_id=676387810]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/separator = SubResource("StyleBoxLine_iabcx")
+
+[node name="ThemeContainer" type="HFlowContainer" parent="PanelContainer/VBoxContainer" unique_id=1505654427]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Overworld" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=478938313]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Overworld" unique_id=2030288117]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Overworld" unique_id=792937216]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Underground" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1967312006]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(32, 0, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Underground" unique_id=1432721952]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Underground" unique_id=910648685]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Desert" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1055796203]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(64, 0, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Desert" unique_id=537038966]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Desert" unique_id=956383162]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Snow" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=170366298]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(96, 0, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Snow" unique_id=160444487]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Snow" unique_id=757470561]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Jungle" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=467214692]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(128, 0, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Jungle" unique_id=1231616659]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Jungle" unique_id=1145408910]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Beach" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=528433165]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(0, 32, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Beach" unique_id=652534202]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Beach" unique_id=1522447812]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Garden" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=554737075]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(32, 32, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Garden" unique_id=267038308]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Garden" unique_id=1581789774]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Mountain" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1369828144]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(64, 32, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Mountain" unique_id=2106774791]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Mountain" unique_id=2119924556]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Skyland" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1730049094]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(96, 32, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Skyland" unique_id=27986153]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Skyland" unique_id=1708162219]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Autumn" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=333253943]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(128, 32, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Autumn" unique_id=494909980]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Autumn" unique_id=1648634402]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Pipeland" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=684082869]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(0, 64, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Pipeland" unique_id=1910780405]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Pipeland" unique_id=516164370]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Space" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1935254849]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(32, 64, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Space" unique_id=1279673627]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Space" unique_id=1309423728]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Underwater" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1322914816]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(64, 64, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Underwater" unique_id=933267300]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Underwater" unique_id=924994353]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Volcano" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1351326612]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(96, 64, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Volcano" unique_id=1894790261]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Volcano" unique_id=506586135]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="GhostHouse" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1369577892]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(128, 64, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/GhostHouse" unique_id=1410458101]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/GhostHouse" unique_id=96141576]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Castle" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1376810374]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(0, 96, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Castle" unique_id=1044403954]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Castle" unique_id=163827659]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="CastleWater" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=1228898287]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(32, 96, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/CastleWater" unique_id=1803901830]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/CastleWater" unique_id=1771240245]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Airship" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=393846281]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(64, 96, 32, 32)
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Airship" unique_id=1434065791]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Airship" unique_id=2133195175]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2
+
+[node name="Bonus" type="NinePatchRect" parent="PanelContainer/VBoxContainer/ThemeContainer" unique_id=240152331]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("2_1u8id")
+region_rect = Rect2(96, 96, 32, 32)
+patch_margin_bottom = 8
+
+[node name="Button" type="Button" parent="PanelContainer/VBoxContainer/ThemeContainer/Bonus" unique_id=1659586650]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_iabcx")
+toggle_mode = true
+flat = true
+
+[node name="Checkbox" type="TextureRect" parent="PanelContainer/VBoxContainer/ThemeContainer/Bonus" unique_id=1798243762]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -12.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 12.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("3_1u8id")
+stretch_mode = 2

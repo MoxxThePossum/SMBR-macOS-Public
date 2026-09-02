@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://cwfjdgsyh35h6"]
+
+[ext_resource type="PackedScene" uid="uid://cyw7kk1em8h16" path="res://Scenes/Parts/Particles/BlockDestructionParticles.tscn" id="1_25jih"]
+[ext_resource type="Texture2D" uid="uid://dndhnixtdoww2" path="res://Assets/Sprites/Particles/BridgeDestructionParticle.png" id="2_4osef"]
+[ext_resource type="Script" uid="uid://cq6f682453q6o" path="res://Scripts/Classes/Components/ResourceSetter.gd" id="3_asaem"]
+[ext_resource type="Script" uid="uid://cmvlgsjmsk0v5" path="res://Scripts/Classes/Resources/ThemedResource.gd" id="4_jna4k"]
+
+[sub_resource type="Resource" id="Resource_2busm"]
+script = ExtResource("4_jna4k")
+Overworld = ExtResource("2_4osef")
+metadata/_custom_type_script = "uid://cmvlgsjmsk0v5"
+
+[node name="BridgeDestructionParticle" unique_id=513265276 instance=ExtResource("1_25jih")]
+
+[node name="Sprite" parent="TL" parent_id_path=PackedInt32Array(369210507) index="0" unique_id=1605568566]
+texture = ExtResource("2_4osef")
+region_enabled = false
+
+[node name="ResourceSetterNew" parent="TL/Sprite" index="0" unique_id=1629196801]
+property_name = ""
+
+[node name="ResourceSetter" type="Node" parent="TL/Sprite" index="1" unique_id=120434526 node_paths=PackedStringArray("node_to_affect")]
+script = ExtResource("3_asaem")
+node_to_affect = NodePath("..")
+property_name = "texture"
+themed_resource = SubResource("Resource_2busm")
+metadata/_custom_type_script = "uid://cq6f682453q6o"
+
+[node name="Sprite" parent="TR" parent_id_path=PackedInt32Array(1437535699) index="0" unique_id=1807107505]
+texture = ExtResource("2_4osef")
+region_enabled = false
+
+[node name="ResourceSetterNew" parent="TR/Sprite" index="0" unique_id=1946695245]
+property_name = ""
+
+[node name="ResourceSetter" type="Node" parent="TR/Sprite" index="1" unique_id=153510640 node_paths=PackedStringArray("node_to_affect")]
+script = ExtResource("3_asaem")
+node_to_affect = NodePath("..")
+property_name = "texture"
+themed_resource = SubResource("Resource_2busm")
+metadata/_custom_type_script = "uid://cq6f682453q6o"
+
+[node name="Sprite" parent="BL" parent_id_path=PackedInt32Array(1862425218) index="0" unique_id=1521277823]
+texture = ExtResource("2_4osef")
+region_enabled = false
+
+[node name="ResourceSetterNew" parent="BL/Sprite" index="0" unique_id=545736962]
+property_name = ""
+
+[node name="ResourceSetter" type="Node" parent="BL/Sprite" index="1" unique_id=372864826 node_paths=PackedStringArray("node_to_affect")]
+script = ExtResource("3_asaem")
+node_to_affect = NodePath("..")
+property_name = "texture"
+themed_resource = SubResource("Resource_2busm")
+metadata/_custom_type_script = "uid://cq6f682453q6o"
+
+[node name="Sprite" parent="BR" parent_id_path=PackedInt32Array(147078336) index="0" unique_id=718913820]
+texture = ExtResource("2_4osef")
+region_enabled = false
+
+[node name="ResourceSetterNew" parent="BR/Sprite" index="0" unique_id=228121991]
+property_name = ""
+
+[node name="ResourceSetter" type="Node" parent="BR/Sprite" index="1" unique_id=1713612777 node_paths=PackedStringArray("node_to_affect")]
+script = ExtResource("3_asaem")
+node_to_affect = NodePath("..")
+property_name = "texture"
+themed_resource = SubResource("Resource_2busm")
+metadata/_custom_type_script = "uid://cq6f682453q6o"
