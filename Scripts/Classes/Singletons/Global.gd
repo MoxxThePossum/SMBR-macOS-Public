@@ -297,6 +297,15 @@ func check_for_rom() -> void:
 			ResourceGenerator.updating = true
 			OS.move_to_trash(ROM_ASSETS_PATH)
 
+var moving := false
+var mouse_start: Vector2i
+
+func on_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == 1 and DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_EXTEND_TO_TITLE) == true:
+		if !moving:
+			mouse_start = get_viewport().get_mouse_position()
+			moving = event.is_pressed()
+
 func _process(delta: float) -> void:
 	if multibind_action_just_pressed("debug_reload"):
 		ResourceSetter.cache.clear()
@@ -306,6 +315,9 @@ func _process(delta: float) -> void:
 		update_theme()
 		TranslationServer.reload_pseudolocalization()
 		log_comment("Reloaded resource packs!")
+	if moving:
+		var mouse_current := Vector2i(get_viewport().get_mouse_position())
+		get_window().position += mouse_current - mouse_start
 	
 	## Imagine being such a shit game engine, that you somehow BROKE ALT-F4, SERIOUSLY.
 	if Input.is_key_pressed(KEY_ALT) and Input.is_key_pressed(KEY_4):
