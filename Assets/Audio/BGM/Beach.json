@@ -1,1 +1,5 @@
-{"variations": {"source": "Beach.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Beach.bgm" }
+	}
+}

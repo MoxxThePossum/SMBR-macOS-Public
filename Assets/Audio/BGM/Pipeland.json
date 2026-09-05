@@ -1,1 +1,5 @@
-{"variations": {"source": "Pipeland.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Pipeland.bgm" }
+	}
+}

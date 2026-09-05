@@ -1,1 +1,5 @@
-{"variations": {"source": "Underground.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Underground.bgm" }
+	}
+}

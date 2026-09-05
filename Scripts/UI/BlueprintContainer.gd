@@ -6,7 +6,7 @@ signal blueprint_selected(path)
 signal blueprint_deleted
 
 func _ready() -> void:
-	%BlueprintName.text = path.get_file().to_upper()
+	$Button.text = path.get_file().to_upper()
 
 func delete_blueprint() -> void:
 	DirAccess.remove_absolute(path)

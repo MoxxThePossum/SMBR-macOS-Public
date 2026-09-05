@@ -1,1 +1,5 @@
-{"variations": {"source": "OnOffPlatform.png"}}
+{
+	"variations": {
+		"default": {"source": "OnOffPlatform.png"}
+	}
+}

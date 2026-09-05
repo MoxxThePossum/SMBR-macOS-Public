@@ -131,13 +131,11 @@ extends CharacterBody2D
 		
 		"BOUNCE_SPEED": {
 			"SMB1": {"value": 248.0},
-			"SMBLL": {"value": 370.0},
-			"SMBANN": {"link": "SMBLL"}
+			"SMBLL": {"value": 370.0}
 		},
 		"BOUNCE_JUMP_SPEED": {
 			"SMB1": {"value": 310.0},
-			"SMBLL": {"value": 370.0},
-			"SMBANN": {"link": "SMBLL"}
+			"SMBLL": {"value": 370.0}
 		},                                 # The strength at which the player bounces off enemies without any extra input, measured in px/sec.   # The strength at which the player bounces off enemies while holding jump, measured in px/sec.
 		
 		"FALL_GRAVITY_PREDETERMINED": true,          # Determines if the player's gravity is determined by their last X velocity from leaving the ground rather than their current X velocity.
@@ -333,15 +331,14 @@ extends CharacterBody2D
 		"RAINBOW_POWERUP_FX": true,        # Determines whether or not the player will play the rainbow effect when powering up.
 		"RAINBOW_FX_SPEED": 15.0,          # Determines the speed of the rainbow effect in other scenarios, measured in cycles/sec
 		"ICE_SPEED_MOD": 1.5,
-		"WALK_SFX": "",                # Determines which sound effect to play when walking.
-		"RUN_SFX": "",                  # Determines which sound effect to play when running.
+		"WALK_SFX": "walk",                # Determines which sound effect to play when walking.
+		"RUN_SFX": "run",                  # Determines which sound effect to play when running.
 		"SKID_SFX": "skid",            # Determines which sound effect to play when skidding.
 		"JUMP_SFX": "big_jump",            # Determines which sound effect to play when jumping.
 		"TRAMPOLINE_SFX": "big_trampoline",          # Determines which sound effect to play when bouncing on a trampoline.
 		"TRAMPOLINE_USED_SFX": "big_used_trampoline", # Determines which sound effect to play when actively using a trampoline.
 		"GROUNDED_WALK_SFX": true,         # Forces walk sounds to only play when on the ground.
 		"GROUNDED_RUN_SFX": true,          # Forces run sounds to only play when on the ground.
-		"PIPE_CUTSCENE_MOVE_SPEED": 48.0
 	},
 	"Small": {
 		"WING_OFFSET": [0.0, 10.0],
@@ -384,8 +381,6 @@ var speed_mult := 1.0
 var accel_mult := 1.0
 
 var total_keys := 0
-
-static var pipe_cutscene := false
 
 @export var power_state: PowerUpState = null:
 	set(value):
@@ -489,22 +484,17 @@ var last_damage_source := ""
 
 static var CHARACTER_NAMES := ["CHAR_MARIO", "CHAR_LUIGI", "CHAR_TOAD", "CHAR_TOADETTE"]
 
-static var CHARACTER_COLOURS := [
-	("res://Assets/Sprites/Players/Mario/CharacterColour.json"),
-	("res://Assets/Sprites/Players/Luigi/CharacterColour.json"), 
-	("res://Assets/Sprites/Players/Toad/CharacterColour.json"),
-	("res://Assets/Sprites/Players/Toadette/CharacterColour.json")
-]
+static var CHARACTER_COLOURS := [preload("res://Assets/Sprites/Players/Mario/CharacterColour.json"), preload("res://Assets/Sprites/Players/Luigi/CharacterColour.json"), preload("res://Assets/Sprites/Players/Toad/CharacterColour.json"), preload("res://Assets/Sprites/Players/Toadette/CharacterColour.json")]
 
 var can_timer_warn := true
 
 var colour_palette_texture: Texture = null
 
 static var CHARACTER_PALETTES := [
-	("res://Assets/Sprites/Players/Mario/ColourPalette.json"),
-	("res://Assets/Sprites/Players/Luigi/ColourPalette.json"),
-	("res://Assets/Sprites/Players/Toad/ColourPalette.json"),
-	("res://Assets/Sprites/Players/Toadette/ColourPalette.json")
+	preload("res://Assets/Sprites/Players/Mario/ColourPalette.json"),
+	preload("res://Assets/Sprites/Players/Luigi/ColourPalette.json"),
+	preload("res://Assets/Sprites/Players/Toad/ColourPalette.json"),
+	preload("res://Assets/Sprites/Players/Toadette/ColourPalette.json")
 ]
 
 #region Animation Fallbacks, these determine what animations will use as a back-up if they aren't present.
@@ -515,7 +505,6 @@ static var ANIMATION_FALLBACKS: Dictionary = {
 	"Stunned": "Idle",
 	
 	# --- Cutscene States ---
-	"LevelTransition": "Idle",
 	"PosePeach": "PoseToad",
 	
 	"FlingJump": "Jump",
@@ -537,8 +526,7 @@ static var ANIMATION_FALLBACKS: Dictionary = {
 	"Pipe": "Idle",
 	"PipeWalk": "Walk",
 	"FlagSlide": "Climb",
-	"FlyUp": "SwimUp",
-	
+
 	# --- Size Transformations ---
 	"Shrink": "Grow",
 	# SkyanUltra: Future power-ups will need to be added here.
@@ -571,9 +559,8 @@ static var ANIMATION_FALLBACKS: Dictionary = {
 func set_animation_fallbacks() -> void:
 	var state_contexts = {
 		"Star": "",
-		"Water": "Swim",
+		"Water": "",
 		"Wing": "Water",
-		"Fly": "Wing",
 	}
 	var state_anims = [
 		"CrouchAttack", "RunAttack", "WalkAttack", "MoveAttack", "IdleAttack",
@@ -629,8 +616,6 @@ var teleporting := false
 var on_ice := false
 var cooldown := false
 
-var swim_stroke := false
-
 var simulated_velocity := Vector2.ZERO
 
 func _ready() -> void:
@@ -661,17 +646,15 @@ func _ready() -> void:
 	handle_invincible_palette()
 	if Global.level_editor == null:
 		recenter_camera()
-	if pipe_cutscene:
-		state_machine.transition_to("PipeCutscene")
 
 # SkyanUltra: Helper function for getting physics params.
-func physics_params(type: String, dict: Dictionary = {}, key: String = "") -> Variant:
+func physics_params(type: String, params_dict: Dictionary = {}, key: String = "") -> Variant:
 	var mult_applied = 1.0
 	var is_movement = false
 	# SkyanUltra: This is a stupid workaround for a stupid issue with this stupid
-	# engine. I can't just set  to physics_dict... So I have to do this
+	# engine. I can't just set params_dict to physics_dict... So I have to do this
 	# work around. I hate it. If anyone can fix it, then please. Do it.
-	if dict == {}: dict = physics_dict
+	if params_dict == {}: params_dict = physics_dict
 	for tag in ["WALK", "RUN", "AIR", "SWIM"]:
 		if tag in type:
 			is_movement = true
@@ -683,15 +666,15 @@ func physics_params(type: String, dict: Dictionary = {}, key: String = "") -> Va
 			mult_applied = speed_mult
 	if power_state != null:
 		if key == "": key = power_state.state_name
-		if key in dict:
-			var state_dict = dict[key]
+		if key in params_dict:
+			var state_dict = params_dict[key]
 			if type in state_dict:
 				var value = state_dict[type]
 				if (value is int or value is float) and not (value is bool):
 					return value * mult_applied
 				return value
-	if "Default" in dict:
-		var default_dict = dict["Default"]
+	if "Default" in params_dict:
+		var default_dict = params_dict["Default"]
 		if type in default_dict:
 			var value = default_dict[type]
 			if value is Dictionary:
@@ -727,13 +710,13 @@ func apply_character_physics() -> void:
 	if int(Global.player_characters[player_id]) > 3:
 		path = path.replace("res://Assets/Sprites/Players", Global.config_path.path_join("custom_characters/"))
 	path = ResourceSetter.get_pure_resource_path(path)
-	var json = JSONParser.parse_to_dict(path)
+	var json = JSON.parse_string(FileAccess.open(path, FileAccess.READ).get_as_text())
 	
 	# SkyanUltra: This section controls all CHARACTER PHYSICS values. This should be
 	# preventing physics changes to stop potential cheating in modes like You VS. Boo
 	# and Marathon mode.
-	if (!json.has("physics")):
-		return
+	if apply_gameplay_changes:
+		physics_dict = PHYSICS_PARAMETERS if Settings.file.gameplay.physics_style else CLASSIC_PARAMETERS
 	for key in json.physics:
 		if key in ["PHYSICS_PARAMETERS", "CLASSIC_PARAMETERS", "POWER_PARAMETERS", "ENDING_PARAMETERS"]:
 			if apply_gameplay_changes:
@@ -746,11 +729,9 @@ func apply_character_physics() -> void:
 				Global.merge_dict(get(key), json.physics[key])
 			else:
 				set(key, json.physics[key])
-	if apply_gameplay_changes:
-		physics_dict = PHYSICS_PARAMETERS if Settings.file.gameplay.physics_style else CLASSIC_PARAMETERS
 
 func apply_classic_physics() -> void:
-	var json = JSONParser.parse_to_dict("res://Resources/ClassicPhysics.json")
+	var json = JSON.parse_string(FileAccess.open("res://Resources/ClassicPhysics.json", FileAccess.READ).get_as_text())
 	for i in json:
 		set(i, json[i])
 
@@ -775,8 +756,6 @@ func editor_level_start() -> void:
 	camera_make_current()
 	recenter_camera()
 	state_machine.transition_to("Normal")
-	if pipe_cutscene:
-		state_machine.transition_to("PipeCutscene")
 	if camera_right_limit <= global_position.x:
 		camera_right_limit = 99999999
 	await get_tree().create_timer(0.1, false).timeout
@@ -814,8 +793,8 @@ func _physics_process(delta: float) -> void:
 	elif is_actually_on_floor():
 		has_flung = false
 		projectiles_fired_since_left_ground = 0
-		land_on_ground()
 		if not is_invincible:
+			land_on_ground()
 			stomp_combo = 0
 	elif actual_velocity_y() > 15:
 		can_bump_sfx = true
@@ -889,30 +868,27 @@ func apply_character_sfx_map() -> void:
 		custom_character = true
 		path = path.replace("res://Assets/Sprites/Players", Global.config_path.path_join("custom_characters/"))
 	path = ResourceSetter.get_pure_resource_path(path)
-	var json = JSONParser.parse_to_dict(path)
+	if FileAccess.file_exists(path) == false:
+		AudioManager.load_sfx_map({})
+		return
+	var json = JSON.parse_string(FileAccess.open(path, FileAccess.READ).get_as_text())
 	
 	for i in json:
-		if json[i] is Array:
-			var arr := []
-			for x in json[i]:
-				arr.append(get_sfx_path(x, json, custom_character))
-			json[i] = arr
+		var res_path = "res://Assets/Audio/SFX/" + json[i]
+		res_path = ResourceSetter.get_pure_resource_path(res_path)
+		if FileAccess.file_exists(res_path) == false or custom_character:
+			var directory = "res://Assets/Sprites/Players/" + character + "/" + json[i]
+			if int(Global.player_characters[player_id]) > 3:
+				directory = directory.replace("res://Assets/Sprites/Players", Global.config_path.path_join("custom_characters/"))
+			directory = ResourceSetter.get_pure_resource_path(directory)
+			if FileAccess.file_exists(directory):
+				json[i] = directory
+			else:
+				json[i] = res_path
 		else:
-			json[i] = get_sfx_path(json[i], json, custom_character)
+			json[i] = res_path
 	
 	AudioManager.load_sfx_map(json)
-
-func get_sfx_path(starting_path := "", json := {}, is_custom_character := false) -> String:
-	var res_path = "res://Assets/Audio/SFX/" + starting_path
-	res_path = ResourceSetter.get_pure_resource_path(res_path)
-	if FileAccess.file_exists(res_path) == false or is_custom_character:
-		var directory = "res://Assets/Sprites/Players/" + character + "/" + starting_path
-		if int(Global.player_characters[player_id]) > 3:
-			directory = directory.replace("res://Assets/Sprites/Players", Global.config_path.path_join("custom_characters/"))
-		directory = ResourceSetter.get_pure_resource_path(directory)
-		if FileAccess.file_exists(directory):
-			return directory
-	return res_path
 
 func refresh_hitbox() -> void:
 	for i in $Hitbox.get_overlapping_areas():
@@ -993,8 +969,7 @@ func bump_ceiling() -> void:
 	bumping = true
 	await get_tree().create_timer(0.1).timeout
 	AudioManager.kill_sfx(physics_params("JUMP_SFX", COSMETIC_PARAMETERS))
-	if is_inside_tree():
-		await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.1).timeout
 	bumping = false
 
 func kick_anim() -> void:
@@ -1031,8 +1006,6 @@ func handle_directions() -> void:
 		input_direction = 1
 	elif Global.player_action_pressed("move_left", player_id):
 		input_direction = -1
-	if Global.player_action_pressed("move_left", player_id) && Global.player_action_pressed("move_right", player_id):
-		input_direction = 0 # Muh accuracies
 	velocity_direction = sign(velocity.x)
 
 # SkyanUltra: Moved projectile handling code into Player for compatibility
@@ -1114,7 +1087,6 @@ func throw_projectile() -> void:
 	attacked.emit()
 	projectile_type = load(physics_params("PROJ_TYPE", POWER_PARAMETERS) + ".tscn")
 	var node = projectile_type.instantiate()
-	node.set_meta("IsPlayerProjectile", "true")
 	var offset = physics_params("PROJ_OFFSET", POWER_PARAMETERS)
 	var angle = Vector2.ZERO if physics_params("PROJ_ANGLE", POWER_PARAMETERS) == null else Vector2.from_angle(deg_to_rad(physics_params("PROJ_ANGLE", POWER_PARAMETERS)))
 	var speed = physics_params("PROJ_SPEED", POWER_PARAMETERS)
@@ -1365,12 +1337,10 @@ func time_up() -> void:
 
 func set_power_state_frame() -> void:
 	colour_palette = ResourceSetter.get_resource(preload("uid://b0quveyqh25dn"))
-	
-	var cur_palette = CHARACTER_PALETTES[int(Global.player_characters[player_id])]
-	if (cur_palette != null):
-		$PlayerPalette/ResourceSetterNew.json_path = cur_palette
+	$PlayerPalette/ResourceSetterNew.resource_json = (CHARACTER_PALETTES[int(Global.player_characters[player_id])])
 	if power_state != null:
-		$ResourceSetterNew.json_path = (get_character_sprite_path())
+		$ResourceSetterNew.resource_json = load(get_character_sprite_path())
+		$ResourceSetterNew.update_resource()
 	var frames = %Sprite.sprite_frames
 	if frames:
 		can_pose_anim = frames.has_animation("PoseDoor")
@@ -1514,7 +1484,7 @@ func get_character_sprite_path(power_stateto_use := power_state.state_name) -> S
 			Global.log_error("No sprite found for: " + character + "/" + power_stateto_use  + "!")
 	return path
 
-func enter_pipe(pipe: PipeArea, warp_to_level := true, wait_forever := false) -> void:
+func enter_pipe(pipe: PipeArea, warp_to_level := true) -> void:
 	z_index = -10
 	can_bump_sfx = false
 	Global.can_pause = false
@@ -1526,16 +1496,15 @@ func enter_pipe(pipe: PipeArea, warp_to_level := true, wait_forever := false) ->
 	state_machine.transition_to("Pipe")
 	PipeArea.exiting_pipe_id = pipe.pipe_id
 	hide_pipe_animation()
-	if !wait_forever:
-		if warp_to_level:
-			await get_tree().create_timer(1, false).timeout
-			if Global.current_game_mode == Global.GameMode.LEVEL_EDITOR:
-				LevelEditor.play_pipe_transition = true
-				Global.level_editor.transition_to_sublevel(pipe.target_sub_level)
-			elif Global.current_level is CustomLevel:
-				Global.transition_to_scene(LevelEditor.sub_areas[pipe.target_sub_level])
-			else:
-				Global.transition_to_scene(pipe.target_level)
+	if warp_to_level:
+		await get_tree().create_timer(1, false).timeout
+		if Global.current_game_mode == Global.GameMode.LEVEL_EDITOR:
+			LevelEditor.play_pipe_transition = true
+			Global.level_editor.transition_to_sublevel(pipe.target_sub_level)
+		elif Global.current_level is CustomLevel:
+			Global.transition_to_scene(NewLevelBuilder.sub_levels[pipe.target_sub_level])
+		else:
+			Global.transition_to_scene(pipe.target_level)
 
 func hide_pipe_animation() -> void:
 	if pipe_enter_direction.x != 0:
@@ -1722,14 +1691,6 @@ func water_entered() -> void:
 	projectiles_fired_since_left_ground = 0
 	velocity.y = max(-physics_params("SWIM_HEIGHT"), velocity.y)
 
-func apply_active_flingers() -> void:
-	for i: FlingerGizmo in get_tree().get_nodes_in_group("PlayerFlingers"):
-		if i.active:
-			i.launch()
-
-func move() -> void:
-	apply_active_flingers()
-	move_and_slide()
 
 func on_modifier_applied() -> void:
 	pass

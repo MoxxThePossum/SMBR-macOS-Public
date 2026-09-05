@@ -9,6 +9,7 @@
 [ext_resource type="FontVariation" uid="uid://bl7sbw4nx3l1t" path="res://Resources/ThemedResources/FontMain.tres" id="11_yglne"]
 [ext_resource type="Texture2D" uid="uid://fdn41mmtnhdt" path="res://Assets/Sprites/Players/ToadNPCLL.png" id="12_gvpv4"]
 [ext_resource type="Script" uid="uid://cbal8ms2oe1ik" path="res://Scripts/Classes/Components/ResourceSetterNew.gd" id="13_2i527"]
+[ext_resource type="JSON" path="res://Assets/Sprites/Players/ToadNPC.json" id="14_swpxw"]
 [sub_resource type="Animation" id="Animation_xoqts"]
 resource_name = "Appear"
 length = 5.0
@@ -483,11 +484,10 @@ animation = &"Emote"
 autoplay = "Emote"
 offset = Vector2(0, 1)
 [node name="ResourceSetterNew" type="Node" parent="Toads/1" unique_id=137128093 node_paths=PackedStringArray("node_to_affect")]
-process_mode = 3
 script = ExtResource("13_2i527")
 node_to_affect = NodePath("..")
 property_name = "sprite_frames"
-json_path = "res://Assets/Sprites/Players/ToadNPC.json"
+resource_json = ExtResource("14_swpxw")
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"
 [node name="2" type="AnimatedSprite2D" parent="Toads" unique_id=2018908343]
 visible = false
@@ -497,11 +497,10 @@ animation = &"Emote"
 autoplay = "Emote"
 offset = Vector2(0, 1)
 [node name="ResourceSetterNew" type="Node" parent="Toads/2" unique_id=248156844 node_paths=PackedStringArray("node_to_affect")]
-process_mode = 3
 script = ExtResource("13_2i527")
 node_to_affect = NodePath("..")
 property_name = "sprite_frames"
-json_path = "res://Assets/Sprites/Players/ToadNPC.json"
+resource_json = ExtResource("14_swpxw")
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"
 [node name="3" type="AnimatedSprite2D" parent="Toads" unique_id=1596745432]
 visible = false
@@ -511,11 +510,10 @@ animation = &"Emote"
 autoplay = "Emote"
 offset = Vector2(0, 1)
 [node name="ResourceSetterNew" type="Node" parent="Toads/3" unique_id=1772178980 node_paths=PackedStringArray("node_to_affect")]
-process_mode = 3
 script = ExtResource("13_2i527")
 node_to_affect = NodePath("..")
 property_name = "sprite_frames"
-json_path = "res://Assets/Sprites/Players/ToadNPC.json"
+resource_json = ExtResource("14_swpxw")
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"
 [node name="4" type="AnimatedSprite2D" parent="Toads" unique_id=1077941395]
 visible = false
@@ -525,11 +523,10 @@ animation = &"Emote"
 autoplay = "Emote"
 offset = Vector2(0, 1)
 [node name="ResourceSetterNew" type="Node" parent="Toads/4" unique_id=1005817246 node_paths=PackedStringArray("node_to_affect")]
-process_mode = 3
 script = ExtResource("13_2i527")
 node_to_affect = NodePath("..")
 property_name = "sprite_frames"
-json_path = "res://Assets/Sprites/Players/ToadNPC.json"
+resource_json = ExtResource("14_swpxw")
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"
 [node name="5" type="AnimatedSprite2D" parent="Toads" unique_id=1157515086]
 visible = false
@@ -539,11 +536,10 @@ animation = &"Emote"
 autoplay = "Emote"
 offset = Vector2(0, 1)
 [node name="ResourceSetterNew" type="Node" parent="Toads/5" unique_id=1556100404 node_paths=PackedStringArray("node_to_affect")]
-process_mode = 3
 script = ExtResource("13_2i527")
 node_to_affect = NodePath("..")
 property_name = "sprite_frames"
-json_path = "res://Assets/Sprites/Players/ToadNPC.json"
+resource_json = ExtResource("14_swpxw")
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"
 [node name="6" type="AnimatedSprite2D" parent="Toads" unique_id=702500657]
 visible = false
@@ -553,11 +549,10 @@ animation = &"Emote"
 autoplay = "Emote"
 offset = Vector2(0, 1)
 [node name="ResourceSetterNew" type="Node" parent="Toads/6" unique_id=1364316194 node_paths=PackedStringArray("node_to_affect")]
-process_mode = 3
 script = ExtResource("13_2i527")
 node_to_affect = NodePath("..")
 property_name = "sprite_frames"
-json_path = "res://Assets/Sprites/Players/ToadNPC.json"
+resource_json = ExtResource("14_swpxw")
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"
 [node name="7" type="AnimatedSprite2D" parent="Toads" unique_id=1985293924]
 visible = false
@@ -567,9 +562,8 @@ animation = &"Emote"
 autoplay = "Emote"
 offset = Vector2(0, 1)
 [node name="ResourceSetterNew" type="Node" parent="Toads/7" unique_id=1998950244 node_paths=PackedStringArray("node_to_affect")]
-process_mode = 3
 script = ExtResource("13_2i527")
 node_to_affect = NodePath("..")
 property_name = "sprite_frames"
-json_path = "res://Assets/Sprites/Players/ToadNPC.json"
+resource_json = ExtResource("14_swpxw")
 metadata/_custom_type_script = "uid://cbal8ms2oe1ik"

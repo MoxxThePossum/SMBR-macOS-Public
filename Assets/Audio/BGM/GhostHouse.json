@@ -1,1 +1,5 @@
-{"variations": {"source": "GhostHouse.bgm"}}
+{
+	"variations": {
+		"default": { "source": "GhostHouse.bgm" }
+	}
+}

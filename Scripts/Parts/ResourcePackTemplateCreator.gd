@@ -13,16 +13,14 @@ const base_info_json := {
 	"name": "New Pack",
 	"description": "Template, give me a description!",
 	"author": "Me, until you change it",
-	"version": "1.0",
-	"show_warnings": true
-}
-
+	"version": "1.0"
+	}
+	
 const disallowed_files := ["bgm","ctex","json", "fnt", "svg", "txt"]
 const extention_blacklist := ["txt"]
 
 func create_template() -> void:
 	await get_tree().process_frame
-	
 	get_directories("res://Assets", files, directories)
 	for i in directories:
 		DirAccess.make_dir_recursive_absolute(i.replace("res://Assets", Global.config_path.path_join("resource_packs/new_pack")))
@@ -41,10 +39,6 @@ func create_template() -> void:
 			print(fnt_file)
 			data = fnt_file.get_buffer(fnt_file.get_length())
 			print(data)
-		elif i.ends_with("/ScoreFont.png"):
-			# For some reason, Godot's BMFont importer REALLY
-			# doesn't like ScoreFont when the PNG is saved at runtime
-			data = FileAccess.get_file_as_bytes(i + ".txt")
 		elif i.contains(".svg"):
 			## DON'T import SVGs
 			continue
@@ -88,13 +82,14 @@ func create_template() -> void:
 	
 	var pack_info_path = Global.config_path.path_join("resource_packs/new_pack/pack_info.json")
 	DirAccess.make_dir_recursive_absolute(pack_info_path.get_base_dir())
-	JSONParser.save_to_file(base_info_json, pack_info_path)
+	var file = FileAccess.open(pack_info_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(base_info_json, "\t"))
+	file.close()
 	print("Done")
 	pack_created.emit()
 
 @warning_ignore("shadowed_variable")
 func get_directories(base_dir := "", files := [], directories := []) -> void:
-	files.append("res://Assets/themes.json")
 	for i in DirAccess.get_directories_at(base_dir):
 		if base_dir.contains("LevelGuides") == false and base_dir.contains(".godot") == false:
 			directories.append(base_dir + "/" + i)

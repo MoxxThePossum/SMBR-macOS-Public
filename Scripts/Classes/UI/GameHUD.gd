@@ -3,7 +3,7 @@ extends CanvasLayer
 
 var current_chara := 0
 
-static var character_icons := [("res://Assets/Sprites/Players/Mario/LifeIcon.json"),("res://Assets/Sprites/Players/Luigi/LifeIcon.json"), ("res://Assets/Sprites/Players/Toad/LifeIcon.json"), ("res://Assets/Sprites/Players/Toadette/LifeIcon.json")]
+static var character_icons := [preload("res://Assets/Sprites/Players/Mario/LifeIcon.json"),preload("res://Assets/Sprites/Players/Luigi/LifeIcon.json"), preload("res://Assets/Sprites/Players/Toad/LifeIcon.json"), preload("res://Assets/Sprites/Players/Toadette/LifeIcon.json")]
 
 const RANK_COLOURS := {"F": Color.DIM_GRAY, "D": Color.WEB_MAROON, "C": Color.PALE_GREEN, "B": Color.DODGER_BLUE, "A": Color.RED, "S": Color.GOLD, "P": Color.PURPLE}
 
@@ -36,17 +36,16 @@ func handle_main_hud() -> void:
 	%KeyAmount.text = "*" + str(KeyItem.total_collected).pad_zeros(2)
 	$Main.set_anchors_preset(Control.PRESET_CENTER_TOP if Settings.file.video.hud_size == 1 else Control.PRESET_TOP_WIDE, true)
 	$ModernHUD.set_anchors_preset(Control.PRESET_CENTER_TOP if Settings.file.video.hud_size == 1 else Control.PRESET_TOP_WIDE, true)
-	%Score.text = str(clamp(Global.score, 0, 9999990)).pad_zeros(6)
+	%Score.text = str(Global.score).pad_zeros(6)
 	%CoinLabel.text = "*" + str(Global.coins).pad_zeros(2)
 	if current_chara != Global.player_characters[0]:
 		update_character_info()
 	%CharacterIcon.get_node("Shadow").texture = %CharacterIcon.texture
-	# DawnLR: This can at the same time fallback to the Mario icon, it kinda does when it's still visible but yeah.
-	%CharacterIcon.visible = Global.current_game_mode != Global.GameMode.BOO_RACE && character_icons[int(current_chara)] != null
+	%CharacterIcon.visible = Global.current_game_mode != Global.GameMode.BOO_RACE
 	%ModernLifeCount.visible = Global.current_game_mode != Global.GameMode.BOO_RACE
 	var world_num := str(Global.world_num)
 	if int(world_num) >= 10:
-		world_num = LevelTransition.LETTER_WORLDS[int(world_num) % 10]
+		world_num = ["A", "B", "C", "D"][int(world_num) % 10]
 	elif int(world_num) < 1:
 		world_num = " "
 	%LevelNum.text = world_num + "-" + str(Global.level_num)
@@ -66,10 +65,9 @@ func handle_main_hud() -> void:
 		handle_speedrun_timer()
 
 func update_character_info() -> void:
+	%CharacterName.text = tr(Player.CHARACTER_NAMES[int(Global.player_characters[0])])
+	%CharacterIcon.get_node("ResourceSetterNew").resource_json = (character_icons[int(Global.player_characters[0])])
 	current_chara = Global.player_characters[0]
-	%CharacterName.text = tr(Player.CHARACTER_NAMES[int(current_chara)])
-	if (character_icons[int(current_chara)] != null):
-		%CharacterIcon.get_node("ResourceSetterNew").json_path = character_icons[int(current_chara)]
 
 func handle_modern_hud() -> void:
 	$ModernHUD/TopLeft/RedCoins.hide()
@@ -77,7 +75,7 @@ func handle_modern_hud() -> void:
 	%ModernPB.hide()
 	%ModernStopwatch.hide()
 	%ModernCoinCount.text = "*" + str(Global.coins).pad_zeros(2)
-	%ModernScore.text = str(clamp(Global.score, 0, 999999990)).pad_zeros(9)
+	%ModernScore.text = str(Global.score).pad_zeros(9)
 	%ModernTime.text = "⏲" + str(Global.time).pad_zeros(3)
 	%ModernKeyCount.visible = KeyItem.total_collected > 0
 	%ModernKeyAmount.text = "*" + str(KeyItem.total_collected).pad_zeros(2)

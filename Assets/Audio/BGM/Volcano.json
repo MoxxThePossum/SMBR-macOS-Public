@@ -1,1 +1,5 @@
-{"variations": {"source": "Volcano.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Volcano.bgm" }
+	}
+}

@@ -27,7 +27,10 @@ func convert_to_json() -> void:
 	if animation_json.is_empty() == false:
 		json["animations"] = animation_json
 	json["variations"] = variation_json
-	JSONParser.save_to_file(json, json_file_path)
+	var json_file = JSON.stringify(json, "\t", false)
+	var file = FileAccess.open(json_file_path, FileAccess.WRITE)
+	file.store_string(json_file)
+	file.close()
 	print("Done!")
 
 func get_variation_values(variation_resource: Resource) -> Dictionary:

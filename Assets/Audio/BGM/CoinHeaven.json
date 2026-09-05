@@ -1,1 +1,5 @@
-{"variations": {"source": "CoinHeaven.bgm"}}
+{
+	"variations": {
+		"default": { "source": "CoinHeaven.bgm" }
+	}
+}

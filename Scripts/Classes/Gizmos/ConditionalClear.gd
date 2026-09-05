@@ -17,9 +17,8 @@ func on_level_start() -> void:
 			%Description.text = statement
 			$CanvasLayer.show()
 			$CanvasLayer/AnimationPlayer.play("Show")
-	$CanvasLayer/PauseDisplay/VBoxContainer/Title.text = %Title.text
-	$CanvasLayer/PauseDisplay/VBoxContainer/Description.text = statement
-
+			$CanvasLayer/PauseDisplay/VBoxContainer/Title.text = %Title.text
+			$CanvasLayer/Description/VBoxContainer/Description.text = %Description.text
 	checked = true
 
 func _process(delta: float) -> void:

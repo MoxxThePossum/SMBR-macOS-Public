@@ -1,1 +1,3 @@
-{"variations": {"source": "LoseRace.mp3"}}
+{
+	"variations": {"default": {"source": "LoseRace.mp3"}}
+}

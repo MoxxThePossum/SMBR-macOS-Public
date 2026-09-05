@@ -1,1 +1,7 @@
-{"variations": {"source": "InvisibleTrack.png"}}
+{
+	"variations": {
+		"default": {
+			"source": "InvisibleTrack.png"
+		}
+	}
+}

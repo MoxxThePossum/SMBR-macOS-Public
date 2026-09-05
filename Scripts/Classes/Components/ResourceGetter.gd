@@ -5,17 +5,14 @@ var original_resource: Resource = null
 
 static var cache := {}
 
-func get_resource(resource: Resource, use_cache := true) -> Resource:
+func get_resource(resource: Resource) -> Resource:
 	if resource == null:
 		return null
-
-	if not use_cache:
-		original_resource = null
 
 	if original_resource == null:
 		original_resource = resource
 	
-	if cache.has(original_resource.resource_path) and resource is not AtlasTexture and use_cache:
+	if cache.has(original_resource.resource_path) and resource is not AtlasTexture:
 		return cache.get(original_resource.resource_path)
 		
 	var path := ""

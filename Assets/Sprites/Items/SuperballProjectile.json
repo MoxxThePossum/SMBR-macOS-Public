@@ -1,13 +1,10 @@
 {
 	"animations": {
 		"default": {
-			"frames": [
-				[0, 0, 16, 16],
-				[16, 0, 16, 16]
-			],
-			"speed": 10,
+			"frames": [[0, 0, 16, 16], [16, 0, 16, 16]],
+			"speed": 10.0,
 			"loop": true
 		}
 	},
-	"variations": {"source": "SuperballProjectile.png"}
+	"variations": {"default": {"source": "SuperballProjectile.png"}}
 }

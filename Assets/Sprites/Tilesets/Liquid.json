@@ -1,6 +1,12 @@
 {
 	"variations": {
-		"Day": {"source": "Liquids.png"},
-		"Night": {"source": "NightLiquids.png"}
+		"default": {
+			"Day": {
+				"source": "Liquids.png"
+			},
+			"Night": {
+				"source": "NightLiquids.png"
+			}
+		}
 	}
 }

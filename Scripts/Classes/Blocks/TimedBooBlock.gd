@@ -16,13 +16,11 @@ static var can_tick := true:
 
 func _ready() -> void:
 	main_block = self
+	$Timer.start()
 	can_change_animation = true
 
-func level_start() -> void:
-	$Timer.start()
-
 func on_timeout() -> void:
-	if can_tick == false or BooRaceHandler.countdown_active or Global.level_editor_is_editing(): return
+	if can_tick == false or BooRaceHandler.countdown_active: return
 	time = clamp(time - 1, 0, 3)
 	if main_block == self:
 		if time <= 0:
@@ -30,9 +28,6 @@ func on_timeout() -> void:
 			return
 		elif time < 3:
 			AudioManager.play_global_sfx("timer_beep")
-	update_sprite()
-
-func update_sprite() -> void:
 	if active:
 		$Sprite.play("On" + str(time))
 	else:
@@ -50,8 +45,6 @@ func _exit_tree() -> void:
 	can_tick = true
 
 func set_active(is_active := false) -> void:
-	if Global.level_editor_is_editing():
-		return
 	$Timer.stop()
 	time = 4
 	active = is_active
@@ -61,8 +54,6 @@ func set_active(is_active := false) -> void:
 		else:
 			$Sprite.play("RedToBlue")
 		await $Sprite.animation_finished
-	time = 3
-	update_sprite()
 	$Timer.start()
 	time = 4
 	on_timeout()

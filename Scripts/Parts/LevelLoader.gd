@@ -129,7 +129,7 @@ func apply_level_data(data := "") -> void:
 		%TimeLimit.value = values[6]
 		%SubLevelID.selected = editor.sub_level_id
 	ResourceSetterNew.clear_cache()
-	Global.update_theme()
+	Global.level_theme_changed.emit()
 
 func apply_bg_data(data := "") -> void:
 	var split = data.split("=", false)

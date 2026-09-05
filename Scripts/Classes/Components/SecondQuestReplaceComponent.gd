@@ -9,7 +9,7 @@ func _ready() -> void:
 		if owner.owner != null:
 			await owner.owner.ready
 		var node = load(new_scene).instantiate()
-		node.position = owner.position
+		node.global_position = owner.global_position
 		node.global_rotation = owner.global_rotation
 		for i in properties:
 			node.set(i, owner.get(i))

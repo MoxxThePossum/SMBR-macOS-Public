@@ -116,17 +116,13 @@ func _physics_process(delta: float) -> void:
 	if moving:
 		wake_meter = 0
 		moving_time += delta
-		play_animation("Spin")
+		$Sprite.play("Spin")
 	else:
 		combo = 0
 		if wake_meter > 5:
-			play_animation("Wake")
+			$Sprite.play("Wake")
 		else:
-			play_animation("Idle")
-
-func play_animation(animation_name := "") -> void:
-	if $Sprite.animation != animation_name:
-		$Sprite.play(animation_name)
+			$Sprite.play("Idle")
 
 func handle_waking(delta: float) -> void:
 	wake_meter += delta * (2 if Global.second_quest else 1)
@@ -177,7 +173,8 @@ func handle_movement(delta: float) -> void:
 		velocity.x = 0
 	if is_on_floor() and velocity.y >= 0:
 		can_air_kick = false
-	$Sprite.scale.x = (direction)
+	if can_turn:
+		$Sprite.speed_scale = sign(direction)
 	velocity.y += (Global.entity_gravity / delta) * delta
 	velocity.y = clamp(velocity.y, -INF, Global.entity_max_fall_speed)
 	move_and_slide()

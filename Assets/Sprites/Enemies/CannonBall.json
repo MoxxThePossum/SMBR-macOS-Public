@@ -1,11 +1,4 @@
 {
-	"animations": {
-		"default": {
-			"frames": [[0, 0, 16, 16]],
-			"speed": 5.0,
-			"loop": true
-		}
-	},
 	"variations": {
 		"default": {
 			"source": "CannonBall.png",
@@ -15,7 +8,10 @@
 			"source": "CannonBall.png",
 			"rect": [16, 0, 16, 16]
 		},
-		"GhostHouse": {"link": "Underground"},
+		"GhostHouse": {
+			"source": "CannonBall.png",
+			"rect": [16, 0, 16, 16]
+		},
 		"Castle": {
 			"source": "CannonBall.png",
 			"rect": [32, 0, 16, 16]
@@ -24,7 +20,10 @@
 			"source": "CannonBall.png",
 			"rect": [48, 0, 16, 16]
 		},
-		"CastleWater": {"link": "Underwater"},
+		"CastleWater": {
+			"source": "CannonBall.png",
+			"rect": [48, 0, 16, 16]
+		},
 		"Desert": {
 			"source": "CannonBall.png",
 			"rect": [0, 16, 16, 16]

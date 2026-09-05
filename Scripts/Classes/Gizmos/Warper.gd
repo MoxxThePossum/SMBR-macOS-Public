@@ -14,7 +14,6 @@ static var saved_velocity := Vector2.ZERO
 
 func _ready() -> void:
 	run_check.call_deferred()
-	warping = false
 
 func run_check() -> void:
 	if target_channel == channel:
@@ -45,5 +44,5 @@ func warp() -> void:
 	if Global.level_editor != null:
 		Global.level_editor.transition_to_sublevel(destination)
 	else:
-		Global.transition_to_scene(LevelEditor.sub_areas[destination])
+		Global.transition_to_scene(NewLevelBuilder.sub_levels[destination])
 	Global.warper_cooldown()

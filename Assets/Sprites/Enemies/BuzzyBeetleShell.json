@@ -1,30 +1,67 @@
 {
 	"properties": {
-		"can_turn": true,
-		"flipped_offset": [0, 1]
+		"flipped_offset": [0, 1],
+		"can_turn": true
 	},
 	"animations": {
 		"Idle": {
-			"frames": [[16, 0, 16, 16]],
-			"speed": 5,
+			"frames": [
+				[
+					16.0,
+					0.0,
+					16.0,
+					16.0
+				]
+			],
+			"speed": 5.0,
 			"loop": true
 		},
 		"Spin": {
 			"frames": [
-				[16, 0, 16, 16],
-				[32, 0, 16, 16],
-				[48, 0, 16, 16],
-				[64, 0, 16, 16]
+				[
+					16.0,
+					0.0,
+					16.0,
+					16.0
+				],
+				[
+					32.0,
+					0.0,
+					16.0,
+					16.0
+				],
+				[
+					48.0,
+					0.0,
+					16.0,
+					16.0
+				],
+				[
+					64.0,
+					0.0,
+					16.0,
+					16.0
+				]
 			],
-			"speed": 15,
+			"speed": 15.0,
 			"loop": true
 		},
 		"Wake": {
 			"frames": [
-				[0, 0, 16, 16],
-				[16, 0, 16, 16]
+				[
+					0.0,
+					0.0,
+					16.0,
+					16.0
+				],
+				[
+					16.0,
+					0.0,
+					16.0,
+					16.0
+				]
 			],
-			"speed": 5,
+			"speed": 5.0,
 			"loop": true
 		}
 	},
@@ -37,7 +74,10 @@
 			"source": "BuzzyBeetle.png",
 			"rect": [144, 0, 80, 16]
 		},
-		"GhostHouse": {"link": "Underground"},
+		"GhostHouse": {
+			"source": "BuzzyBeetle.png",
+			"rect": [144, 0, 80, 16]
+		},
 		"Castle": {
 			"source": "BuzzyBeetle.png",
 			"rect": [256, 0, 80, 16]
@@ -46,7 +86,10 @@
 			"source": "BuzzyBeetle.png",
 			"rect": [368, 0, 80, 16]
 		},
-		"CastleWater": {"link": "Underwater"},
+		"CastleWater": {
+			"source": "BuzzyBeetle.png",
+			"rect": [368, 0, 80, 16]
+		},
 		"Desert": {
 			"source": "BuzzyBeetle.png",
 			"rect": [32, 16, 80, 16]

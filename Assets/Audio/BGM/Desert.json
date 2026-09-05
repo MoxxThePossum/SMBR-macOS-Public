@@ -1,1 +1,5 @@
-{"variations": {"source": "Desert.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Desert.bgm" }
+	}
+}

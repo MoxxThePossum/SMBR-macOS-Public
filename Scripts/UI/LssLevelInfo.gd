@@ -40,10 +40,9 @@ func setup_visuals(container: OnlineLevelContainer) -> void:
 	$Panel/AutoScrollContainer.scroll_pos = 0
 	$Panel/AutoScrollContainer.move_direction = -1
 	%LSSDescription.text = "Fetching Description..."
-	print(saved_stuff)
 	if saved_stuff.is_empty():
 		$Description.request(LEVEL_INFO_URL + container.level_id)
-	elif saved_stuff.has("description"):
+	else:
 		%LSSDescription.text = saved_stuff.description
 	for i in ["level_name", "level_author", "level_id", "thumbnail_url", "level_thumbnail", "difficulty"]:
 		var value = null
@@ -58,7 +57,7 @@ func setup_visuals(container: OnlineLevelContainer) -> void:
 	%OnlinePlay.visible = has_downloaded
 
 func _process(_delta: float) -> void:
-	if Global.multibind_action_just_pressed("ui_back") || Input.is_action_just_pressed("mb_right"):
+	if Global.multibind_action_just_pressed("ui_back"):
 		close()
 
 func close() -> void:
@@ -104,10 +103,11 @@ func save_thumbnail() -> void:
 		thumbnail.get_image().save_png(Global.config_path.path_join("custom_levels/downloaded/thumbnails/" + level_id + ".png"))
 
 func play_level() -> void:
-	var file_path = Global.config_path.path_join("custom_levels/downloaded/" + level_id + ".lvl")
-	LevelEditor.level_file = JSONParser.parse_to_dict(file_path)
+	var file_path := Global.config_path.path_join("custom_levels/downloaded/" + level_id + ".lvl")
+	var file = JSON.parse_string(FileAccess.open(file_path, FileAccess.READ).get_as_text())
+	LevelEditor.level_file = file
 	set_process(false)
-	var info = LevelEditor.level_file["Info"]
+	var info = file["Info"]
 	LevelEditor.level_author = info["Author"]
 	LevelEditor.level_name = info["Name"]
 	level_play.emit()

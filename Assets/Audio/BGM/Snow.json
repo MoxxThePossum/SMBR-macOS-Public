@@ -1,1 +1,5 @@
-{"variations": {"source": "Snow.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Snow.bgm" }
+	}
+}

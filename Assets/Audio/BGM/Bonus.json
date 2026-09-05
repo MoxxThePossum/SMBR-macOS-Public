@@ -1,1 +1,5 @@
-{"variations": {"source": "Bonus.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Bonus.bgm" }
+	}
+}

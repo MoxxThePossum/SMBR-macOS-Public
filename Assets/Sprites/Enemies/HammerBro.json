@@ -1,19 +1,39 @@
 {
 	"animations": {
-		"Idle": {
-			"frames": [
-				[0, 0, 16, 24],
-				[16, 0, 16, 24]
-			],
-			"speed": 5,
-			"loop": true
-		},
 		"Hammer": {
 			"frames": [
-				[32, 0, 16, 24],
-				[48, 0, 16, 24]
+				[
+					32.0,
+					0.0,
+					16.0,
+					24.0
+				],
+				[
+					48.0,
+					0.0,
+					16.0,
+					24.0
+				]
 			],
-			"speed": 5,
+			"speed": 5.0,
+			"loop": true
+		},
+		"Idle": {
+			"frames": [
+				[
+					0.0,
+					0.0,
+					16.0,
+					24.0
+				],
+				[
+					16.0,
+					0.0,
+					16.0,
+					24.0
+				]
+			],
+			"speed": 5.0,
 			"loop": true
 		}
 	},
@@ -26,8 +46,8 @@
 			"source": "HammerBro.png",
 			"rect": [64, 0, 64, 24]
 		},
-		"GhostHouse": {"link": "Underground"},
 		"Castle": {"link": "Underground"},
+		"GhostHouse": {"link": "Underground"},
 		"Underwater": {
 			"source": "HammerBro.png",
 			"rect": [128, 0, 64, 24]

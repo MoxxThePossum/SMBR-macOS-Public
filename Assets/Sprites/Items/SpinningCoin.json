@@ -1,46 +1,105 @@
 {
-	"properties": {"can_spawn_particles": true},
 	"animations": {
 		"default": {
 			"frames": [
-				[0, 0, 16, 16],
-				[16, 0, 16, 16],
-				[32, 0, 16, 16],
-				[48, 0, 16, 16]
+				[
+					0.0,
+					0.0,
+					16.0,
+					16.0
+				],
+				[
+					16.0,
+					0.0,
+					16.0,
+					16.0
+				],
+				[
+					32.0,
+					0.0,
+					16.0,
+					16.0
+				],
+				[
+					48.0,
+					0.0,
+					16.0,
+					16.0
+				]
 			],
-			"speed": 20,
+			"speed": 20.0,
 			"loop": true
 		}
+	},
+	"properties": {
+		"can_spawn_particles": true
 	},
 	"variations": {
 		"default": {
 			"source": "SpinningCoin.png",
-			"rect": [0, 0, 64, 16]
+			"rect": [
+				0.0,
+				0.0,
+				64.0,
+				16.0
+			]
 		},
 		"Underground": {
 			"source": "SpinningCoin.png",
-			"rect": [0, 16, 64, 16]
+			"rect": [
+				0.0,
+				16.0,
+				64.0,
+				16.0
+			]
 		},
-		"GhostHouse": {"link": "Underground"},
+		"GhostHouse": {
+			"link": "Underground"
+		},
 		"Castle": {
 			"source": "SpinningCoin.png",
-			"rect": [0, 32, 64, 16]
+			"rect": [
+				0.0,
+				32.0,
+				64.0,
+				16.0
+			]
 		},
 		"Snow": {
 			"source": "SpinningCoin.png",
-			"rect": [0, 48, 64, 16]
+			"rect": [
+				0.0,
+				48.0,
+				64.0,
+				16.0
+			]
 		},
 		"Space": {
 			"source": "SpinningCoin.png",
-			"rect": [0, 64, 64, 16]
+			"rect": [
+				0.0,
+				64.0,
+				64.0,
+				16.0
+			]
 		},
 		"Volcano": {
 			"source": "SpinningCoin.png",
-			"rect": [0, 80, 64, 16]
+			"rect": [
+				0.0,
+				80.0,
+				64.0,
+				16.0
+			]
 		},
 		"Bonus": {
 			"source": "SpinningCoin.png",
-			"rect": [0, 96, 64, 16]
+			"rect": [
+				0.0,
+				96.0,
+				64.0,
+				16.0
+			]
 		}
 	}
 }

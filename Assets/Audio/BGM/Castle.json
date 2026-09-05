@@ -1,1 +1,5 @@
-{"variations": {"source": "Castle.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Castle.bgm" }
+	}
+}

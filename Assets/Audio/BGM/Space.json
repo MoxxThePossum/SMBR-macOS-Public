@@ -1,1 +1,5 @@
-{"variations": {"source": "Space.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Space.bgm" }
+	}
+}

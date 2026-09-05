@@ -5,5 +5,7 @@
 		"material.particles_anim_h_frames": 8,
 		"lifetime": 0.5
 	},
-	"variations": {"source": "RedCoinSparkle.png"}
+	"variations": {
+		"default": {"source": "RedCoinSparkle.png", "rect": [0, 0, 64, 8]}
+	}
 }

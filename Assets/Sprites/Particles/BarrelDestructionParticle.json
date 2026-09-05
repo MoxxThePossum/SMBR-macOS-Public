@@ -4,11 +4,21 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [0, 0, 8, 8]
+					"rect": [
+						0.0,
+						0.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [8, 0, 8, 8]
+					"rect": [
+						8.0,
+						0.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -16,24 +26,46 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [16, 0, 8, 8]
+					"rect": [
+						16.0,
+						0.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [24, 0, 8, 8]
+					"rect": [
+						24.0,
+						0.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
-		"GhostHouse": {"link": "Underground"},
+		"GhostHouse": {
+			"link": "Underground"
+		},
 		"Castle": {
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [32, 0, 8, 8]
+					"rect": [
+						32.0,
+						0.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [40, 0, 8, 8]
+					"rect": [
+						40.0,
+						0.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -41,24 +73,46 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [48, 0, 8, 8]
+					"rect": [
+						48.0,
+						0.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [56, 0, 8, 8]
+					"rect": [
+						56.0,
+						0.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
-		"CastleWater": {"link": "Underwater"},
+		"CastleWater": {
+			"link": "Underwater"
+		},
 		"Desert": {
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [0, 8, 8, 8]
+					"rect": [
+						0.0,
+						8.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [8, 8, 8, 8]
+					"rect": [
+						8.0,
+						8.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -66,11 +120,21 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [16, 8, 8, 8]
+					"rect": [
+						16.0,
+						8.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [24, 8, 8, 8]
+					"rect": [
+						24.0,
+						8.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -78,11 +142,21 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [32, 8, 8, 8]
+					"rect": [
+						32.0,
+						8.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [40, 8, 8, 8]
+					"rect": [
+						40.0,
+						8.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -90,11 +164,21 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [48, 8, 8, 8]
+					"rect": [
+						48.0,
+						8.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [56, 8, 8, 8]
+					"rect": [
+						56.0,
+						8.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -102,11 +186,21 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [0, 16, 8, 8]
+					"rect": [
+						0.0,
+						16.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [8, 16, 8, 8]
+					"rect": [
+						8.0,
+						16.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -114,11 +208,21 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [16, 16, 8, 8]
+					"rect": [
+						16.0,
+						16.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [24, 16, 8, 8]
+					"rect": [
+						24.0,
+						16.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -126,11 +230,21 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [32, 16, 8, 8]
+					"rect": [
+						32.0,
+						16.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [40, 16, 8, 8]
+					"rect": [
+						40.0,
+						16.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -138,11 +252,21 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [48, 16, 8, 8]
+					"rect": [
+						48.0,
+						16.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [56, 16, 8, 8]
+					"rect": [
+						56.0,
+						16.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		},
@@ -150,11 +274,21 @@
 			"choices": [
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [0, 24, 8, 8]
+					"rect": [
+						0.0,
+						24.0,
+						8.0,
+						8.0
+					]
 				},
 				{
 					"source": "BarrelDestructionParticle.png",
-					"rect": [8, 24, 8, 8]
+					"rect": [
+						8.0,
+						24.0,
+						8.0,
+						8.0
+					]
 				}
 			]
 		}

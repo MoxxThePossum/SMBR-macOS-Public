@@ -1,1 +1,5 @@
-{"variations": {"source": "BooRace.bgm"}}
+{
+	"variations": {
+		"default": { "source": "BooRace.bgm" }
+	}
+}

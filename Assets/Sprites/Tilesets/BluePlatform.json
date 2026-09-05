@@ -1,1 +1,7 @@
-{"variations": {"source": "BluePlatform.png"}}
+{
+	"variations": {
+		"default": {
+			"source": "BluePlatform.png"
+		}
+	}
+}

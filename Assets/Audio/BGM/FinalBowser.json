@@ -1,1 +1,3 @@
-{"variations": {"source": "FinalBowser.bgm"}}
+{
+	"variations": {"default": {"source": "FinalBowser.bgm"}}
+}

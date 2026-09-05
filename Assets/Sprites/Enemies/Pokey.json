@@ -1,15 +1,39 @@
 {
 	"animations": {
-		"Head": {
-			"frames": [[0, 0, 32, 32]],
-			"speed": 5,
+		"Body": {
+			"frames": [
+				[
+					32.0,
+					0.0,
+					32.0,
+					32.0
+				]
+			],
+			"speed": 5.0,
 			"loop": true
 		},
-		"Body": {
-			"frames": [[32, 0, 32, 32]],
-			"speed": 5,
+		"Head": {
+			"frames": [
+				[
+					0.0,
+					0.0,
+					32.0,
+					32.0
+				]
+			],
+			"speed": 5.0,
 			"loop": true
 		}
 	},
-	"variations": {"source": "Pokey.png"}
+	"variations": {
+		"default": {
+			"source": "Pokey.png",
+			"rect": [
+				0.0,
+				0.0,
+				64.0,
+				32.0
+			]
+		}
+	}
 }

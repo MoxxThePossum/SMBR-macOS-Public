@@ -18,6 +18,7 @@ static var is_transitioning := false
 func _ready() -> void:
 	Global.level_sequence_captured = false
 	await Global.level_complete_begin
+	update_cam_limit()
 	Global.level_sequence_captured = true
 	$Overlay.visible = not use_sprite
 	$OverlaySprite.visible = use_sprite
@@ -30,8 +31,7 @@ func _ready() -> void:
 	time_save = Global.time
 
 func update_cam_limit() -> void:
-	if Player.camera_right_limit > $CameraRightLimit.global_position.x:
-		$CameraRightLimit._enter_tree()
+	$CameraRightLimit._enter_tree()
 
 func _process(_delta: float) -> void:
 	$Overlay.modulate.a = int($SmallCastleVisual.use_sprite == false)

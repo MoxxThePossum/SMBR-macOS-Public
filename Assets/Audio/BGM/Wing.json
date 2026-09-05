@@ -1,1 +1,5 @@
-{"variations": {"source": "Wing.bgm"}}
+{
+	"variations":{
+		"default": {"source": "Wing.bgm"}
+	}
+}

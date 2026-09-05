@@ -1,21 +1,40 @@
 {
 	"animations": {
-		"Walk": {
+		"Hit": {
 			"frames": [
-				[0, 0, 16, 16],
-				[16, 0, 16, 16]
+				[
+					32.0,
+					0.0,
+					16.0,
+					16.0
+				]
 			],
-			"speed": 5,
+			"speed": 5.0,
 			"loop": true
 		},
-		"Hit": {
-			"frames": [[32, 0, 16, 16]],
-			"speed": 5,
+		"Walk": {
+			"frames": [
+				[
+					0.0,
+					0.0,
+					16.0,
+					16.0
+				],
+				[
+					16.0,
+					0.0,
+					16.0,
+					16.0
+				]
+			],
+			"speed": 5.0,
 			"loop": true
 		}
 	},
 	"variations": {
-		"source": "BobOmb.png",
-		"rect": [0, 112, 48, 16]
+		"default": {
+			"source": "BobOmb.png",
+			"rect": [0, 112, 48, 16]
+		}
 	}
 }

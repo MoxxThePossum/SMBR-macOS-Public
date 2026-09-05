@@ -1,1 +1,5 @@
-{"variations": {"source": "DryBonesDestructionParticles.png"}}
+{
+	"variations": {
+		"default": {"source": "DryBonesDestructionParticles.png"}
+	}
+}

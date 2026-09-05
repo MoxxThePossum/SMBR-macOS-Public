@@ -2,15 +2,27 @@
 	"animations": {
 		"default": {
 			"frames": [
-				[0, 0, 16, 16],
-				[16, 0, 16, 16]
+				[
+					0.0,
+					0.0,
+					16.0,
+					16.0
+				],
+				[
+					16.0,
+					0.0,
+					16.0,
+					16.0
+				]
 			],
-			"speed": 5,
+			"speed": 5.0,
 			"loop": true
 		}
 	},
 	"variations": {
-		"source": "CheepCheep.png",
-		"rect": [32, 32, 32, 16]
+		"default": {
+			"source": "CheepCheep.png",
+			"rect": [32, 32, 32, 16]
+		}
 	}
 }

@@ -1,1 +1,5 @@
-{"variations": {"source": "StarMan.bgm"}}
+{
+	"variations": {
+		"default": {"source": "StarMan.bgm"}
+	}
+}

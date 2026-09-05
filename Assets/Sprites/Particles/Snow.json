@@ -1,1 +1,3 @@
-{"variations": {"source": "Snow.png"}}
+{
+	"variations": {"default": {"source": "Snow.png"}}
+}

@@ -2,9 +2,11 @@
 	"animations": {
 		"default": {
 			"frames": [[0, 0, 16, 16]],
-			"speed": 5,
+			"speed": 5.0,
 			"loop": false
 		}
 	},
-	"variations": {"source": "HiddenCoin.png"}
+	"variations": {
+		"default": {"source": "HiddenCoin.png"}
+	}
 }

@@ -1,13 +1,27 @@
 {
 	"animations": {
-		"Rise": {
-			"frames": [[0, 0, 16, 24]],
-			"speed": 5,
+		"Fall": {
+			"frames": [
+				[
+					16.0,
+					0.0,
+					16.0,
+					24.0
+				]
+			],
+			"speed": 5.0,
 			"loop": true
 		},
-		"Fall": {
-			"frames": [[16, 0, 16, 24]],
-			"speed": 5,
+		"Rise": {
+			"frames": [
+				[
+					0.0,
+					0.0,
+					16.0,
+					24.0
+				]
+			],
+			"speed": 5.0,
 			"loop": true
 		}
 	},
@@ -20,7 +34,10 @@
 			"source": "Blooper.png",
 			"rect": [32, 0, 32, 24]
 		},
-		"GhostHouse": {"link": "Underground"},
+		"GhostHouse": {
+			"source": "Blooper.png",
+			"rect": [32, 0, 32, 24]
+		},
 		"Castle": {
 			"source": "Blooper.png",
 			"rect": [64, 0, 32, 24]
@@ -29,7 +46,10 @@
 			"source": "Blooper.png",
 			"rect": [96, 0, 32, 24]
 		},
-		"CastleWater": {"link": "Underwater"},
+		"CastleWater": {
+			"source": "Blooper.png",
+			"rect": [96, 0, 32, 24]
+		},
 		"Desert": {
 			"source": "Blooper.png",
 			"rect": [0, 24, 32, 24]

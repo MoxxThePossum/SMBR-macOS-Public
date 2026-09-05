@@ -17,8 +17,6 @@ signal stopped
 
 var can_grow := false
 
-var finished := false
-
 @export_range(2, 16) var length := 3.0
 
 func _ready() -> void:
@@ -82,12 +80,9 @@ func _physics_process(delta: float) -> void:
 			stopped.emit()
 			can_grow = false
 			can_tele = false
-			finished = true
 			return
 	elif can_stop:
 		can_stop = false
-		if can_grow:
-			finished = true
 		stopped.emit()
 		if (Level.vine_warp_level != "" or CoinHeavenWarpPoint.subarea_to_warp_to != -1) and not cutscene:
 			can_tele = true
@@ -115,7 +110,7 @@ func on_player_entered(_player: Player) -> void:
 		CoinHeavenWarpPoint.subarea_return = Global.level_editor.sub_level_id
 		Global.level_editor.transition_to_sublevel(CoinHeavenWarpPoint.subarea_to_warp_to)
 	elif Global.current_game_mode == Global.GameMode.CUSTOM_LEVEL or Global.in_custom_campaign():
-		Global.transition_to_scene(LevelEditor.sub_areas[CoinHeavenWarpPoint.subarea_to_warp_to])
+		Global.transition_to_scene(NewLevelBuilder.sub_levels[CoinHeavenWarpPoint.subarea_to_warp_to])
 	else:
 		Global.transition_to_scene(Level.vine_warp_level)
 

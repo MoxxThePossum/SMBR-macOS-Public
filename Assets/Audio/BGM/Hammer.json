@@ -1,1 +1,5 @@
-{"variations": {"source": "Hammer.bgm"}}
+{
+	"variations": {
+		"default": {"source": "Hammer.bgm"}
+	}
+}

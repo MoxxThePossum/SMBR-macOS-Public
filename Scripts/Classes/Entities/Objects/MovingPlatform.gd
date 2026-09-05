@@ -22,7 +22,8 @@ var wave := 0.0
 
 @onready var starting_position := global_position
 
-func start() -> void:
+func _ready() -> void:
+	starting_position = global_position
 	wave = -1.0
 
 func _physics_process(delta: float) -> void:
@@ -53,7 +54,7 @@ func handle_back_forth_movement(delta: float) -> void:
 		if distance <= 0 or not moving:
 			return
 		wave += delta / (distance / (speed * 32))
-		var val = inverse_lerp(-1, 1, cos(wave))
+		var val = inverse_lerp(-1, 1, sin(wave))
 		global_position = lerp(starting_position, target_point, val)
 
 func handle_looping_movement(delta: float) -> void:

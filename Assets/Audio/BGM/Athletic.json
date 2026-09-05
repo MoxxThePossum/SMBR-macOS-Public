@@ -1,1 +1,5 @@
-{"variations": {"source": "Athletic.bgm"}}
+{
+	"variations": {
+		"default": { "source": "Athletic.bgm" }
+	}
+}

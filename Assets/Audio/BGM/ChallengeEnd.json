@@ -1,1 +1,5 @@
-{"variations": {"source": "ChallengeEnd.mp3"}}
+{
+	"variations": {
+		"default": { "source": "ChallengeEnd.mp3" }
+	}
+}

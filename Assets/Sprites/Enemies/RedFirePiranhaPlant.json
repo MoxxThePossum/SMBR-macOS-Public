@@ -1,44 +1,73 @@
 {
 	"animations": {
-		"IdleUp": {
+		"AimDown": {
 			"frames": [
-				[32, 0, 32, 32],
-				[0, 0, 32, 32]
+				[
+					32.0,
+					32.0,
+					32.0,
+					32.0
+				]
 			],
-			"speed": 10,
-			"loop": false
-		},
-		"IdleDown": {
-			"frames": [
-				[32, 32, 32, 32],
-				[0, 32, 32, 32]
-			],
-			"speed": 10,
-			"loop": false
+			"speed": 5.0,
+			"loop": true
 		},
 		"AimUp": {
-			"frames": [[32, 0, 32, 32]],
-			"speed": 5,
-			"loop": true
-		},
-		"AimDown": {
-			"frames": [[32, 32, 32, 32]],
-			"speed": 5,
-			"loop": true
-		},
-		"ShootUp": {
-			"frames": [[0, 0, 32, 32]],
-			"speed": 5,
+			"frames": [
+				[
+					32.0,
+					0.0,
+					32.0,
+					32.0
+				]
+			],
+			"speed": 5.0,
 			"loop": true
 		},
 		"ShootDown": {
-			"frames": [[0, 32, 32, 32]],
-			"speed": 5,
+			"frames": [
+				[
+					0.0,
+					32.0,
+					32.0,
+					32.0
+				]
+			],
+			"speed": 5.0,
 			"loop": true
+		},
+		"ShootUp": {
+			"frames": [
+				[
+					0.0,
+					0.0,
+					32.0,
+					32.0
+				]
+			],
+			"speed": 5.0,
+			"loop": true
+		},
+		"IdleUp": {
+			"frames": [[32, 0, 32, 32], [0, 0, 32, 32]],
+			"speed": 5.0,
+			"loop": false
+		},
+		"IdleDown": {
+			"frames": [[32, 32, 32, 32], [0, 32, 32, 32]],
+			"speed": 5.0,
+			"loop": false
 		}
 	},
 	"variations": {
-		"source": "FirePiranhaPlant.png",
-		"rect": [64, 128, 64, 64]
+		"default": {
+			"source": "FirePiranhaPlant.png",
+			"rect": [
+				64.0,
+				128.0,
+				64.0,
+				64.0
+			]
+		}
 	}
 }

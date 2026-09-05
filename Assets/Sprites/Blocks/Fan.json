@@ -7,9 +7,11 @@
 				[32, 0, 16, 48],
 				[48, 0, 16, 48]
 			],
-			"speed": 30,
+			"speed": 30.0,
 			"loop": true
 		}
 	},
-	"variations": {"source": "Fan.png"}
+	"variations": {
+		"default": {"source": "Fan.png"}
+	}
 }

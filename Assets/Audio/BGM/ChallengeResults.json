@@ -1,1 +1,5 @@
-{"variations": {"source": "ChallengeResults.bgm"}}
+{
+	"variations": {
+		"default": { "source": "ChallengeResults.bgm" }
+	}
+}

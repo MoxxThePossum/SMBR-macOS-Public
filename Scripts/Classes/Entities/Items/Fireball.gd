@@ -8,9 +8,6 @@ const FIREBALL_EXPLOSION = preload("res://Scenes/Prefabs/Particles/FireballExplo
 func _ready() -> void:
 	if can_rotate:
 		$Sprite/Animation.play("Spin")
-	await get_tree().create_timer(0.5, false).timeout
-	if $VisibleOnScreenNotifier2D.is_on_screen() == false:
-		queue_free()
 
 func _physics_process(delta: float) -> void:
 	$Sprite.scale.x = direction

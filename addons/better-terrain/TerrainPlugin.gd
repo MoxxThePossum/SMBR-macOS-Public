@@ -52,7 +52,6 @@ func _edit(object) -> void:
 		dock.tilemap = object
 		new_tileset = object.tile_set
 	if object is TileSet:
-		dock.tilemap = null
 		new_tileset = object
 	
 	if dock.tileset != new_tileset:
@@ -62,12 +61,12 @@ func _edit(object) -> void:
 
 
 func _forward_canvas_draw_over_viewport(overlay: Control) -> void:
-	if dock.is_visible_in_tree():
+	if dock.visible:
 		dock.canvas_draw(overlay)
 
 
 func _forward_canvas_gui_input(event: InputEvent) -> bool:
-	if !dock.is_visible_in_tree():
+	if !dock.visible:
 		return false
 	
 	return dock.canvas_input(event)

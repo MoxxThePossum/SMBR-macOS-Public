@@ -11,14 +11,10 @@ var level_time := 0
 var game_style := "SMBLL"
 var difficulty := 0
 var file_path := ""
-
 var is_downloaded := false
 var thumbnail: Texture = null
 var level_id := ""
 var idx := 0
-
-var is_autosave := false
-var autosave_time := ""
 
 const CAMPAIGN_RECTS := {
 	"SMB1": Rect2(0, 0, 42, 16),
@@ -28,8 +24,8 @@ const CAMPAIGN_RECTS := {
 }
 
 const ICON_TEXTURES := [
-	("res://Assets/Sprites/UI/CustomLevelIconDay.png"),
-	("res://Assets/Sprites/UI/CustomLevelIconNight.png")
+	preload("uid://chtjq1vr0rpso"),
+	preload("uid://cn8bcncfmdikq")
 ]
 
 const THEME_RECTS := {
@@ -71,19 +67,11 @@ func update_visuals() -> void:
 	else:
 		%Thumbnail.hide()
 		%LevelIcon.show()
-		%LevelIcon.texture = ResourceSetter.get_resource(load(ICON_TEXTURES[level_time]))
+		%LevelIcon.texture = ResourceSetter.get_resource(ICON_TEXTURES[level_time])
 		%LevelIcon.region_rect = THEME_RECTS[level_theme]
 	
-	if (is_autosave):
-		$MarginContainer/HBoxContainer/LeftHalf/LevelInfo/ScrollContainer2.hide()
-		$MarginContainer/HBoxContainer/LeftHalf/LevelInfo/ScrollContainer3.show()
-		%LevelName.text = level_name.replace("_" + autosave_time, "")
-		%AutosaveDate.text = autosave_time.replace("T", " ")
-	else:
-		$MarginContainer/HBoxContainer/LeftHalf/LevelInfo/ScrollContainer2.show()
-		$MarginContainer/HBoxContainer/LeftHalf/LevelInfo/ScrollContainer3.hide()
-		%LevelName.text = level_name if level_name != "" else "(UNNAMED LEVEL)"
-		%LevelAuthor.text = "By " + (level_author if level_author != "" else "Player")
+	%LevelName.text = level_name if level_name != "" else "(Unnamed Level)"
+	%LevelAuthor.text = "By " + (level_author if level_author != "" else "Player")
 	
 	%CampaignIcon.region_rect = CAMPAIGN_RECTS[game_style]
 	
@@ -93,5 +81,5 @@ func update_visuals() -> void:
 		idx += 1
 
 func _process(_delta: float) -> void:
-	if (Global.multibind_action_just_pressed("ui_accept") || Input.is_action_just_pressed("mb_left")) and visible:
+	if Global.multibind_action_just_pressed("ui_accept") and visible:
 		selected.emit(self)
