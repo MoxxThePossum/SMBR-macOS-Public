@@ -2,8 +2,8 @@ extends Node
 
 var file := {
 	"video": {
-		"mode": 0,
-		"size": 0,
+		"mode": 1,
+		"size": 1,
 		"multiplier": 3,
 		"vsync": 1,
 		"drop_shadows": 1,
