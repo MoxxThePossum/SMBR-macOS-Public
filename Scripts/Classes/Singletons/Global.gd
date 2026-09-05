@@ -3,18 +3,38 @@ extends Node
 var level_theme := "Overworld":
 	set(value):
 		level_theme = value
-		level_theme_changed.emit()
+		update_theme()
+	get:
+		if theme_override:
+			return theme_override
+		return level_theme
 var theme_time := "Day":
 	set(value):
 		theme_time = value
-		level_time_changed.emit()
+		update_theme()
+	get:
+		if time_override:
+			return time_override
+		return theme_time
+
+var theme_override := ""
+var time_override := ""
+var music_override := ""
+var primary_bg_override := -1
+var secondary_bg_override := -1
+var liquid_override := -1
+var particle_override := -1
+var extra_music_override := ""
+var level_metadata := {}
+var overlay_clouds_override := -1
+var second_order_override := -1
 
 signal level_theme_changed
-signal level_time_changed
 
 const BASE64_CHARSET := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-var VERSION_CHECK_URL := ""
+const VERSION_CHECK_URL := "https://cdn.jsdelivr.net/gh/JHDev2006/Super-Mario-Bros.-Remastered-Public@main/version.txt"
+const SNAPSHOT_CHECK_URL := "https://cdn.jsdelivr.net/gh/JHDev2006/Super-Mario-Bros.-Remastered-Public@refs/heads/1.1/snapshot_version.txt"
 @onready var screen_shaker: Node = $ScreenShaker
 
 var entity_gravity := 10.0
@@ -35,12 +55,13 @@ var ROM_POINTER_PATH = config_path.path_join("rom_pointer.smb")
 var ROM_PATH = config_path.path_join("baserom.nes")
 var ROM_ASSETS_PATH = config_path.path_join("resource_packs/BaseAssets")
 const ROM_PACK_NAME := "BaseAssets"
-const ROM_ASSETS_VERSION := 5
+const ROM_ASSETS_VERSION := 9
 
 var server_version := -1
 var current_version := -1
+var current_snapshot := ""
 var version_number := ""
-var is_snapshot := true
+var is_snapshot := false
 
 const LEVEL_THEMES := {
 	"SMB1": SMB1_LEVEL_THEMES,
@@ -74,6 +95,7 @@ var total_deaths := 0
 var portable_mode := false
 var checked_portable := false
 
+const RESOLUTIONS := [Vector2(256, 240), Vector2(320, 240), Vector2(426, 240), Vector2(256, 240)]
 
 var score := 0:
 	set(value):
@@ -85,7 +107,6 @@ var score := 0:
 				score = value
 		else:
 			score = value
-		score = clamp(score, 0, 9999990)
 var coins := 0:
 	set(value):
 		coins = value
@@ -97,20 +118,18 @@ var coins := 0:
 var time := 300
 var inf_time := false
 var lives := 3
-var world_num := 1
+var world_num := 1:
+	set(value):
+		world_num = value
 
 var level_num := 1
 var disco_mode := false
 
-enum Room{MAIN_ROOM, BONUS_ROOM, COIN_HEAVEN, PIPE_CUTSCENE, TITLE_SCREEN}
-
-const room_strings := ["MainRoom", "BonusRoom", "CoinHeaven", "PipeCutscene", "TitleScreen"]
-
-var current_room: Room = Room.MAIN_ROOM
-
 signal transition_finished
 var transitioning_scene := false
 var awaiting_transition := false
+
+var current_room_type := Level.RoomType.NORMAL
 
 signal level_complete_begin
 signal score_tally_finished
@@ -198,32 +217,45 @@ var unpressed_buttons: Dictionary[StringName, bool] = {}
 
 
 func _ready() -> void:
-	if is_snapshot: get_build_time()
-	if OS.is_debug_build(): debug_mode = false
+	if is_snapshot: 
+		get_build_time()
+		current_snapshot = get_snapshot_version()
 	current_version = get_version_number()
+	if OS.is_debug_build(): debug_mode = false
 	get_server_version()
 	setup_config_dirs()
 	check_for_rom()
 	load_default_translations()
 	level_theme_changed.connect(load_default_translations)
 
+func update_theme() -> void:
+	theme_override = ""
+	time_override = ""
+	$ThemeGetter.update_resource()
+	ResourceSetterNew.clear_cache()
+	level_theme_changed.emit()
+
 func setup_config_dirs() -> void:
 	var dirs = [
 		"custom_characters",
 		"custom_levels",
+		"custom_levels/autosaves",
 		"logs",
 		"marathon_recordings",
 		"resource_packs",
 		"saves",
 		"screenshots",
 		"level_packs",
-		"blueprints"
+		"blueprints",
+		"mods"
 	]
 
 	for d in dirs:
 		var full_path = config_path.path_join(d)
 		if not DirAccess.dir_exists_absolute(full_path):
 			DirAccess.make_dir_recursive_absolute(full_path)
+			
+	ModsTransfer.move_mods_to_new_path(ModsTransfer.find_mods_in_old_path())
 
 func get_config_path() -> String:
 	var exe_path := OS.get_executable_path()
@@ -259,20 +291,11 @@ func check_for_rom() -> void:
 	if DirAccess.dir_exists_absolute(ROM_ASSETS_PATH):
 		var pack_json: String = FileAccess.get_file_as_string(ROM_ASSETS_PATH + "/pack_info.json")
 		var pack_dict: Dictionary = JSON.parse_string(pack_json)
-		if pack_dict.get("version", -1) == ROM_ASSETS_VERSION:
+		if pack_dict.get("version", -1) >= ROM_ASSETS_VERSION:
 			rom_assets_exist = true 
 		else:
 			ResourceGenerator.updating = true
 			OS.move_to_trash(ROM_ASSETS_PATH)
-
-var moving := false
-var mouse_start: Vector2i
-
-func on_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == 1 and DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_EXTEND_TO_TITLE) == true:
-		if !moving:
-			mouse_start = get_viewport().get_mouse_position()
-		moving = event.is_pressed()
 
 func _process(delta: float) -> void:
 	if multibind_action_just_pressed("debug_reload"):
@@ -280,12 +303,9 @@ func _process(delta: float) -> void:
 		ResourceSetterNew.clear_cache()
 		ResourceGetter.cache.clear()
 		AudioManager.current_level_theme = ""
-		level_theme_changed.emit()
+		update_theme()
 		TranslationServer.reload_pseudolocalization()
 		log_comment("Reloaded resource packs!")
-	if moving:
-		var mouse_current := Vector2i(get_viewport().get_mouse_position())
-		get_window().position += mouse_current - mouse_start
 	
 	## Imagine being such a shit game engine, that you somehow BROKE ALT-F4, SERIOUSLY.
 	if Input.is_key_pressed(KEY_ALT) and Input.is_key_pressed(KEY_4):
@@ -293,19 +313,47 @@ func _process(delta: float) -> void:
 	
 	if multibind_action_just_pressed("toggle_fps_count"):
 		%FPSCount.visible = !%FPSCount.visible
-	%FPSCount.text = str(int(Engine.get_frames_per_second())) + " FPS"
-
+	if (%FPSCount.visible):
+		%FPSCount.text = str(int(Engine.get_frames_per_second())) + " FPS" + get_memory_usage()
+	
 	handle_p_switch(delta)
 	
 	handle_input()
 	
-	if Input.is_key_label_pressed(KEY_F11) and debug_mode == false and OS.is_debug_build():
-		AudioManager.play_global_sfx("switch")
-		debug_mode = true
-		log_comment("Debug Mode enabled! some bugs may occur!")
-		
+	# DawnLR: Pluh! It just a quick way to get to the title screen, you can delete it if you want. 👍️👍️👍️
+	if OS.is_debug_build():
+		if Input.is_key_label_pressed(KEY_F11) and debug_mode == false:
+			AudioManager.play_global_sfx("switch")
+			debug_mode = true
+			log_comment("Debug Mode enabled! some bugs may occur!")
+		if Input.is_key_label_pressed(KEY_F10) && debug_mode && get_tree().current_scene is not TitleScreen:
+			transition_to_scene("res://Scenes/Levels/TitleScreen.tscn")
+	
+	# DawnLR: WE ARE ALT+ENTER TO FULLSCREEN!
+	if multibind_action_just_pressed("fullscreen_toggle"):
+		Settings.toggle_fullscreen()
 	if multibind_action_just_pressed("ui_screenshot"):
 		take_screenshot()
+
+func get_memory_usage() -> String:
+	var string := ""
+	
+	if (!OS.is_debug_build()):
+		return string
+		
+	var bytes := OS.get_static_memory_peak_usage()
+	var kb := bytes / 1024.0
+	var mb := kb / 1024.0
+	
+	string += "\n"
+	if (mb >= 1.0):
+		string += "%s MB" % str(snappedf(mb, 0.01))
+	elif (kb >= 1.0):
+		string += "%s KB" % str(snappedf(kb, 0.01))
+	else: # If that could ever happen
+		string += "%s BYTES" % str(snappedf(bytes, 0.01))
+		
+	return string + " - MEM USED"
 
 func take_screenshot() -> void:
 	var img: Image = get_viewport().get_texture().get_image()
@@ -351,6 +399,11 @@ func get_version_number() -> int:
 	var number = (FileAccess.open("res://version.txt", FileAccess.READ).get_as_text())
 	version_number = str(number).replace("\n", "")
 	return int(number)
+
+func get_snapshot_version() -> String:
+	var number = (FileAccess.open("res://snapshot_version.txt", FileAccess.READ).get_as_text())
+	number = number.replace("\n", "")
+	return number
 
 func get_int_version_num(version_num := "") -> int:
 	return int(version_num.replace(".", "").pad_zeros(3))
@@ -417,11 +470,13 @@ func reset_values() -> void:
 	Checkpoint.keys_collected = 0
 	Broadcaster.active_channels = []
 	Warper.target_channel = -1
+	Warper.can_warp = true
 	ConditionalClear.valid = true
 	ConditionalClear.checked = false
 	GlobalCounter.amounts = {}
 	Level.start_level_path = Level.get_scene_string(world_num, level_num)
 	LevelPersistance.reset_states()
+	OffScreenDespawner.editor_testing_safety = false
 	Level.first_load = true
 	Level.can_set_time = true
 	Level.in_vine_level = false
@@ -429,6 +484,10 @@ func reset_values() -> void:
 	Level.vine_warp_level = ""
 	p_switch_active = false
 	p_switch_timer = -1.0
+
+func stop_all_timers() -> void:
+	p_switch_active = false
+	p_switch_timer = -1
 
 func clear_saved_values() -> void:
 	coins = 0
@@ -442,6 +501,7 @@ func transition_to_scene(scene_path = "") -> void:
 		return
 	transitioning_scene = true
 	if fade_transition:
+		freeze_screen()
 		$Transition/AnimationPlayer.play("FadeIn")
 		await $Transition/AnimationPlayer.animation_finished
 		await get_tree().create_timer(0.1, true).timeout
@@ -449,6 +509,8 @@ func transition_to_scene(scene_path = "") -> void:
 		%TransitionBlock.modulate.a = 1
 		$Transition.show()
 		await get_tree().create_timer(0.1, true).timeout
+	if scene_path == null:
+		scene_path = "res://Scenes/Levels/CustomLevelBase.tscn"
 	if scene_path is String:
 		get_tree().change_scene_to_file(scene_path)
 	elif scene_path is PackedScene:
@@ -456,6 +518,7 @@ func transition_to_scene(scene_path = "") -> void:
 	await get_tree().scene_changed
 	await get_tree().create_timer(0.15, true).timeout
 	if fade_transition:
+		close_freeze()
 		$Transition/AnimationPlayer.play_backwards("FadeIn")
 	else:
 		$Transition/AnimationPlayer.play("RESET")
@@ -484,7 +547,6 @@ func freeze_screen() -> void:
 
 func close_freeze() -> void:
 	$Transition/Freeze.hide()
-	$Transition.hide()
 
 var recording_dir = config_path.path_join("marathon_recordings")
 
@@ -505,55 +567,67 @@ func on_score_sfx_finished() -> void:
 		$ScoreTally.play()
 
 func get_server_version() -> void:
-	if is_snapshot == true:
-		VERSION_CHECK_URL = "https://github.com/TheOliveOli38/SMBR-macOS-Public/raw/refs/heads/main/version.txt"
-	elif is_snapshot == false:
-		VERSION_CHECK_URL = "https://github.com/yuriko-shimizu/Super-Mario-Bros.-Remastered-Public-Mac/raw/refs/heads/main/version.txt"
 	var http = HTTPRequest.new()
 	add_child(http)
+	var url = VERSION_CHECK_URL
+	if is_snapshot:
+		url = SNAPSHOT_CHECK_URL
 	http.request_completed.connect(version_got)
-	http.request(VERSION_CHECK_URL, [], HTTPClient.METHOD_GET)
+	http.request(url, [], HTTPClient.METHOD_GET)
 
 func version_got(_result, response_code, _headers, body) -> void:
 	current_version = get_version_num_int(version_number)
 	if response_code == 200:
-		server_version = int(get_version_num_int(body.get_string_from_utf8()))
+		if is_snapshot:
+			server_version = int(get_snapshot_num_int(body.get_string_from_utf8()))
+		else:
+			server_version = int(get_version_num_int(body.get_string_from_utf8()))
 	else:
 		server_version = -2
 
-var error_log_cooldown := false
+# DawnLR: Just some rewrite, the functionality is still the same
 
-func log_error(msg := "", can_spam := true) -> void:
+var error_log_cooldown := false
+func log_error(msg := "", can_spam := true, timer := 10) -> void:
+	msg = tr(msg)
+	push_error(msg)
+	
 	if error_log_cooldown and not can_spam:
 		return
-	var error_message = $CanvasLayer/VBoxContainer/ErrorMessage.duplicate()
+	var error_message = %ErrorMessage.duplicate()
 	error_message.text = "Error - " + msg
-	error_message.visible = true
-	if can_spam == false:
-		do_cooldown()
-	$CanvasLayer/VBoxContainer.add_child(error_message)
-	await get_tree().create_timer(10, false).timeout
-	error_message.queue_free()
+	
+	create_log(error_message, timer, can_spam)
+
+func log_warning(msg := "", timer := 10) -> void:
+	msg = tr(msg)
+	push_warning(msg)
+	
+	var error_message: Label = %WarningMessage.duplicate()
+	error_message.text = "Warning - " + str(msg)
+	
+	create_log(error_message, timer)
+
+func log_comment(msg := "", timer := 2) -> void:
+	msg = tr(msg)
+	print(msg)
+	
+	var error_message = %CommentMessage.duplicate()
+	error_message.text = str(msg)
+	
+	create_log(error_message, timer)
 
 func do_cooldown() -> void:
 	error_log_cooldown = true
 	await get_tree().create_timer(1, false).timeout
 	error_log_cooldown = false
 
-func log_warning(text) -> void:
-	var error_message: Label = $CanvasLayer/VBoxContainer/Warning.duplicate()
-	error_message.text = "Warning - " + str(text)
+func create_log(error_message: Label, timer: int, can_spam := false) -> void:
 	error_message.visible = true
-	$CanvasLayer/VBoxContainer.add_child(error_message)
-	await get_tree().create_timer(10, false).timeout
-	error_message.queue_free()
-	
-func log_comment(text) -> void:
-	var error_message = $CanvasLayer/VBoxContainer/Comment.duplicate()
-	error_message.text = str(text)
-	error_message.visible = true
-	$CanvasLayer/VBoxContainer.add_child(error_message)
-	await get_tree().create_timer(2, false).timeout
+	if can_spam == false:
+		do_cooldown()
+	$Logs/VBoxContainer.add_child(error_message)
+	await get_tree().create_timer(timer, false).timeout
 	error_message.queue_free()
 
 func level_editor_is_playtesting() -> bool:
@@ -589,12 +663,22 @@ func sanitize_string(string := "") -> String:
 	return string
 
 func get_base_asset_version() -> int:
-	var json = JSON.parse_string(FileAccess.open(config_path.path_join("BaseAssets/pack_info.json"), FileAccess.READ).get_as_text())
+	var json = JSONParser.parse_to_dict(config_path.path_join("BaseAssets/pack_info.json"))
 	var version = json.version
 	return get_version_num_int(version)
 
 func get_version_num_int(ver_num := "0.0.0") -> int:
 	return int(ver_num.replace(".", ""))
+
+func get_snapshot_num_int(ver_num := "26w00a") -> int:
+	var year = ver_num.substr(0, 2)
+	var week = ver_num.substr(3, 2)
+	var num = ver_num[5]
+	
+	return (int(year) * int(week)) + int(num.unicode_at(0))
+
+func get_rc_num_int(rc_num := "rc1") -> int:
+	return int(rc_num.right(1)) * 1000
 
 func load_default_translations() -> void:
 	for i in lang_codes:
@@ -606,7 +690,7 @@ func create_translation_from_json(locale := "") -> void:
 	var locale_json := {}
 	for resource_pack in Settings.file.visuals.resource_packs:
 		var path = $ResourceSetterNew.get_resource_pack_path("res://Assets/Locale/" + locale + ".json", resource_pack)
-		var file_json = JSON.parse_string(FileAccess.open(path, FileAccess.READ).get_as_text())
+		var file_json = JSONParser.parse_to_dict(path)
 		for i in file_json.keys():
 			var value = file_json[i]
 			if value is Dictionary:
@@ -631,7 +715,7 @@ func remove_cryllic_characters(message := "") -> String:
 	return message
 
 func create_gal_translation(en_json_path := "") -> void:
-	var en_json = JSON.parse_string(FileAccess.open(en_json_path, FileAccess.READ).get_as_text())
+	var en_json = JSONParser.parse_to_dict(en_json_path)
 	var translation = Translation.new()
 	for i in en_json.keys():
 		translation.add_message(i, convert_en_to_gal(en_json[i]))

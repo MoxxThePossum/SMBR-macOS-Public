@@ -36,7 +36,7 @@ var modern_starting_timers := [1, 1, 0.5]
 var classic_fire_table := [3.2, 1.0667, 3.2, 3.2, 3.2, 1.0667, 1.0667, 3.2]
 var jump_height := 100 if modern else 128
 var fall_speed := 2.5 if modern else 3.52
-var max_fall_speed := Global.entity_max_fall_speed if modern else 150
+var max_fall_speed: int = Global.entity_max_fall_speed if modern else 150
 
 var fire_charge_speed := 1.0 if modern else 0.5333
 
@@ -136,6 +136,8 @@ func breathe_fire() -> void:
 	charging_fire = false
 	fire_shot += 1
 	var flame = BOWSER_FLAME.instantiate()
+	if has_meta("IsBro"):
+		flame.set_meta("IsBowserBro", "true")
 	flame.global_position = global_position + Vector2(18 * direction, -20)
 	flame.mode = 1
 	flame.direction = direction
@@ -185,6 +187,7 @@ func classic_hammers() -> void:
 	hammers_spawned += 1
 	sprite.play("Hammer")
 	$Hammer.show()
+	$Hammer.play("Hold")
 	$HammerHitbox/Shape.disabled = false
 	await get_tree().create_timer(0.233, false).timeout
 	if ignore_flag_die:
@@ -204,6 +207,9 @@ func despawn_hammer() -> void:
 
 func spawn_hammer() -> void:
 	var node = HAMMER.instantiate()
+	node.set_meta("HammerType", "Bowser")
+	if has_meta("IsBro"):
+		node.set_meta("IsBowserBro", "true")
 	var notifier = node.get_node("VisibleOnScreenNotifier2D")
 	notifier.screen_exited.connect(self.despawn_hammer)
 	if not modern:
@@ -221,10 +227,12 @@ func spawn_hammer() -> void:
 
 func modern_hammers() -> void:
 	sprite.play("Hammer")
+	$Hammer.play("Hold")
 	$Hammer.show()
 	await get_tree().create_timer(0.5, false).timeout
 	for i in randi_range(3, 6):
 		sprite.play("Hammer")
+		$Hammer.play("Hold")
 		$Hammer.show()
 		if ignore_flag_die:
 			sprite.play("Idle")
@@ -267,8 +275,12 @@ func on_timeout() -> void:
 func on_gib_about_to_spawn() -> void:
 	if is_real:
 		AudioManager.play_global_sfx("bowser_fall")
-	else:
-		$GibSpawner.gib_type = 0
 	# guzlad: ugly but it'll have to do until we move the metadata stuff to actual variables
 	if ((Global.current_game_mode == Global.GameMode.CUSTOM_LEVEL) or (Global.current_game_mode == Global.GameMode.LEVEL_EDITOR)) and !is_real:
-		$SpriteScaleJoint/DeathSprite/ResourceSetterNew.resource_json = load("res://Assets/Sprites/Enemies/Goomba.json")
+		$SpriteScaleJoint/DeathSprite/ResourceSetterNew.json_path = ("res://Assets/Sprites/Enemies/Goomba.json")
+
+func on_modifiers_changed() -> void:
+	if is_real:
+		$GibSpawner.gib_type = 1
+	else:
+		$GibSpawner.gib_type = 0

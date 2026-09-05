@@ -15,6 +15,7 @@ const EMPTY_BLOCK = ("res://Scenes/Prefabs/Blocks/EmptyBlock.tscn")
 @export_range(1, 99) var item_amount := 1
 @export var combo_meter_amount := 25
 @export var mushroom_if_small := false
+@export var block_type := ""
 const SUPER_MUSHROOM = ("res://Scenes/Prefabs/Entities/Items/SuperMushroom.tscn")
 var can_hit := true
 var bouncing := false
@@ -46,6 +47,7 @@ func dispense_item() -> void:
 	var node = item_to_dispense.instantiate()
 	node.set_meta("block_item", true)
 	node.set_meta("no_persist", true)
+	node.set_meta("layer", get_meta("layer", -1))
 	if node is PowerUpItem or node.has_meta("is_item"):
 		for i in get_tree().get_nodes_in_group("Players"):
 			add_sibling(node)
@@ -91,6 +93,7 @@ func player_mushroom_check(player: Player = null) -> PackedScene:
 func spawn_empty_block() -> void:
 	var block = load(EMPTY_BLOCK).instantiate()
 	block.position = position
+	block.set_meta("BlockType", block_type)
 	add_sibling(block)
 	if get_parent().get_parent() is TrackRider:
 		get_parent().get_parent().attached_entity = block
