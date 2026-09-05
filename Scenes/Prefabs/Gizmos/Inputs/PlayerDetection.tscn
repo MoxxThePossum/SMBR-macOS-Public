@@ -40,5 +40,5 @@ script = ExtResource("5_5frb8")
 properties = Array[String](["size_x", "size_y"])
 metadata/_custom_type_script = "uid://ctfbuoxtnnl0q"
 
-[connection signal="player_entered" from="Hitbox" to="SignalExposer" method="turn_on" unbinds=1]
-[connection signal="player_exited" from="Hitbox" to="SignalExposer" method="turn_off" unbinds=1]
+[connection signal="object_entered" from="." to="SignalExposer" method="turn_on"]
+[connection signal="object_exited" from="." to="SignalExposer" method="turn_off"]
